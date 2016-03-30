@@ -14,10 +14,12 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "tzwhere": "^1.0.0"
   },
   "dependencies": {
     "download": "^4.4.3",
-    "download-status": "^2.2.1"
+    "download-status": "^2.2.1",
+    "shpjs": "^3.3.2"
   }
 }
