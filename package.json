@@ -1,0 +1,23 @@
+{
+  "name": "node-geo-tz",
+  "version": "1.0.0",
+  "description": "Node.js timezone lookup from tz_world data",
+  "main": "index.js",
+  "scripts": {
+    "updateTzData": "node scripts/updateData.js",
+    "test": "mocha \"tests/**/*.js\""
+  },
+  "keywords": [
+    "timezone"
+  ],
+  "author": "Evan Siroky",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "download": "^4.4.3",
+    "download-status": "^2.2.1"
+  }
+}
