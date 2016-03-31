@@ -2,16 +2,24 @@
   "name": "node-geo-tz",
   "version": "1.0.0",
   "description": "Node.js timezone lookup from tz_world data",
-  "main": "index.js",
-  "scripts": {
-    "updateTzData": "node scripts/updateData.js",
-    "test": "mocha \"tests/**/*.js\""
-  },
   "keywords": [
     "timezone"
   ],
   "author": "Evan Siroky",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evansiroky/node-geo-tz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/evansiroky/node-geo-tz/issues"
+  },
+  "homepage": "https://github.com/evansiroky/node-geo-tz#readme",
+  "main": "index.js",
+  "scripts": {
+    "updateTzData": "node scripts/updateData.js",
+    "test": "mocha \"tests/**/*.js\""
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^2.4.5"
