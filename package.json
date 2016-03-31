@@ -1,6 +1,6 @@
 {
   "name": "node-geo-tz",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Node.js timezone lookup from tz_world data",
   "keywords": [
     "timezone"
@@ -18,11 +18,19 @@
   "main": "index.js",
   "scripts": {
     "updateTzData": "node scripts/updateData.js",
-    "test": "mocha \"tests/**/*.js\""
+    "test": "mocha \"tests/**/*.js\"",
+    "precover": "rimraf coverage",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
+    "codeclimate-send": "cross-env CODECLIMATE_REPO_TOKEN=5f0631a32476e00dbcaa60c57e0a03a71a8d7be6b08f4d93b1db55c067179091 ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
+    "codeclimate": "npm run cover && npm run codeclimate-send"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "codeclimate-test-reporter": "^0.3.1",
+    "cross-env": "^1.0.7",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2"
   },
   "dependencies": {
     "download": "^4.4.3",

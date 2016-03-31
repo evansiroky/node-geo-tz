@@ -4,10 +4,15 @@ var geoTz = require('../index.js')
 
 describe('find tests', function() {
   
-  it('should find the timezone geojson', function() {
+  it('should find the timezone name for a valid coordinate', function() {
     var tz = geoTz.tz(47.650499, -122.350070)
     assert.isString(tz)
     assert.equal(tz, 'America/Los_Angeles')
+  })
+
+  it('should return null timezone name for coordinate in ocean', function() {
+    var tz = geoTz.tz(0, 0)
+    assert.isNull(tz)
   })
 
   it('should return a moment-timezone', function() {
@@ -16,6 +21,11 @@ describe('find tests', function() {
     assert.property(tzMoment, '_z')
     assert.property(tzMoment._z, 'name')
     assert.equal(tzMoment._z.name, 'America/Los_Angeles')
+  })
+
+  it('should return null timezone moment for coordinate in ocean', function() {
+    var tz = geoTz.tzMoment(0, 0)
+    assert.isNull(tz)
   })
 
   it('should parse time correctly', function() {
