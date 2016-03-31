@@ -1,5 +1,5 @@
 {
-  "name": "node-geo-tz",
+  "name": "geo-tz",
   "version": "1.0.0",
   "description": "Node.js timezone lookup from tz_world data",
   "keywords": [
