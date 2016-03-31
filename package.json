@@ -1,6 +1,6 @@
 {
   "name": "node-geo-tz",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Node.js timezone lookup from tz_world data",
   "keywords": [
     "timezone"
