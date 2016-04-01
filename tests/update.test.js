@@ -40,8 +40,6 @@ describe('data update', function() {
 
     it('new zip file should not be downloaded if not needed', function(done) {
 
-      var beginTime = (new Date()).getTime()
-
       geoTz.updateData({
           mainUrl: BASE_URL + 'two_small_indiana_tzs.zip', 
           shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1'
@@ -89,7 +87,8 @@ describe('data update', function() {
         function(err) {
           try {
             assert.isOk(err)
-            console.log(err)
+            assert.property(err, 'message')
+            assert.equal(err.message, 'no layers founds')
           } catch(e) {
             return done(e)
           }
@@ -100,7 +99,7 @@ describe('data update', function() {
   
     it('tz geojson should get updated after fetching valid shapefile', function(done) {
 
-      var beginTime = (new Date()).getTime()
+      var aWhileAgo = (new Date()).getTime() - 100000
 
       // update timezone data by downloading it and extracting to geojson
       geoTz.updateData({
@@ -120,7 +119,7 @@ describe('data update', function() {
 
             try {
               assert.isNotOk(err)
-              assert.isAbove(stats.ctime.getTime(), beginTime, 'file update time is before test!')
+              assert.isAbove(stats.ctime.getTime(), aWhileAgo, 'file update time is before test!')
             } catch(e) {
               return done(e)
             } 
