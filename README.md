@@ -7,7 +7,15 @@ A node.js module to find the timezone based on gps coordinates
 
 `npm install geo-tz`
 
-## Finding Timezone:
+## Usage
+
+    var geoTz = require('geo-tz')
+    
+    var name        = geoTz.tz(47.650499, -122.350070)                                // 'America/Los_Angeles'
+    var now         = geoTz.tzMoment(47.650499, -122.350070)                          // moment-timezone obj
+    var specifcTime = geoTz.tzMoment(47.650499, -122.350070, '2016-03-30T01:23:45Z')  // moment-timezone obj
+
+## API Docs:
 
 ### .tz(lat, lon)
 
