@@ -19,6 +19,7 @@
   "scripts": {
     "updateTzData": "node scripts/updateData.js",
     "test": "mocha \"tests/**/*.js\"",
+    "testGeoIndex": "mocha tests/geoIndex.test.js",
     "precover": "rimraf coverage",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
     "codeclimate-send": "cross-env CODECLIMATE_REPO_TOKEN=5f0631a32476e00dbcaa60c57e0a03a71a8d7be6b08f4d93b1db55c067179091 ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
@@ -30,15 +31,18 @@
     "cross-env": "^1.0.7",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
+    "jsts": "^1.1.1",
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.5.2",
+    "turf-polygon": "^1.0.3"
   },
   "dependencies": {
     "async": "^1.5.2",
     "download": "^4.4.3",
     "download-status": "^2.2.1",
-    "moment-timezone": "^0.5.3",
+    "lodash": "^4.11.2",
+    "moment-timezone": "0.5.3",
     "shpjs": "^3.3.2",
     "turf-inside": "^1.1.4",
     "turf-point": "^2.0.0"
