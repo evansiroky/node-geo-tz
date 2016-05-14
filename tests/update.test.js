@@ -27,7 +27,10 @@ describe('data update', function() {
   })
 
   afterEach(function(done) {
-    rimraf('./data', done)
+    rimraf('./data-test', function(err) {
+      if(err) { return done(err) }
+      fs.rename('./data', './data-test', done)    
+    })
   })
 
   describe('cases with same sha1', function() {

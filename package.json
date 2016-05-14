@@ -19,7 +19,7 @@
   "scripts": {
     "updateTzData": "node scripts/updateData.js",
     "test": "mocha \"tests/**/*.js\"",
-    "testGeoIndex": "mocha tests/geoIndex.test.js",
+    "testtest": "mocha tests/update.test.js",
     "precover": "rimraf coverage",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
     "codeclimate-send": "cross-env CODECLIMATE_REPO_TOKEN=5f0631a32476e00dbcaa60c57e0a03a71a8d7be6b08f4d93b1db55c067179091 ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",

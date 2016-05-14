@@ -23,7 +23,10 @@ describe('geoindex', function() {
   })
 
   afterEach(function(done) {
-    rimraf('./data', done)
+    rimraf('./data-test', function(err) {
+      if(err) { return done(err) }
+      fs.rename('./data', './data-test', done)    
+    })
   })
 
   it('should create geoindex of simple geometry', function(done) {
@@ -37,7 +40,15 @@ describe('geoindex', function() {
 
         assert.deepEqual(generatedIndex, expectedIndexData)
 
-        done()
+        // also make sure certain subzone is written
+        fs.stat('./data/b/b/d/c/d/d/geo.json', function(err, stats) {
+
+            assert.isNotOk(err)
+            assert.deepEqual(require('../data/b/b/d/c/d/d/geo.json'), require('./data/expectedSubzone.json'))
+
+            done()
+
+        })
       }) 
 
   })
