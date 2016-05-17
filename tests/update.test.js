@@ -4,40 +4,36 @@ var assert = require('chai').assert,
   nock = require('nock'),
   rimraf = require('rimraf')
 
+var util = require('./util.js')
+
 var geoTz = require('../index.js')
 
-var BASE_URL = 'http://example.com/',
+var MASTER_DATA_DIR = './data',
+  TEST_DATA_DIR = './data-test-update',
+  BASE_URL = 'http://example.com/',
   NOCK_HOST = 'http://example.com',
   LOCAL_FOLDER = './tests/data/',
-  MASTER_LOCAL_SHA_FILE = './data/tz_world_mp.zip.sha1'
+  TEST_SHA_FILE = TEST_DATA_DIR + '/tz_world_mp.zip.sha1'
 
 
 describe('data update', function() {
 
-  before(function(done) {
-    fs.rename('./data', './data-master', done)
-  })
-
-  after(function(done) {
-    fs.rename('./data-master', './data', done)
-  })
+  this.timeout(4000)
+  this.slow(2000)
 
   beforeEach(function(done) {
-    fs.mkdir('./data', done)
+    util.createDataDir(TEST_DATA_DIR, done)
   })
 
   afterEach(function(done) {
-    rimraf('./data-test', function(err) {
-      if(err) { return done(err) }
-      fs.rename('./data', './data-test', done)    
-    })
+    util.destroyDataDir(TEST_DATA_DIR, done)
   })
 
   describe('cases with same sha1', function() {
 
     beforeEach(function(done) {
       fs.copy(LOCAL_FOLDER + 'two_small_indiana_tzs.zip.sha1', 
-        MASTER_LOCAL_SHA_FILE,
+        TEST_SHA_FILE,
         done)
     })
 
@@ -54,7 +50,8 @@ describe('data update', function() {
 
       geoTz.updateData({
           mainUrl: BASE_URL + 'two_small_indiana_tzs.zip', 
-          shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1'
+          shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1',
+          dataDir: TEST_DATA_DIR
         }, 
         function(err) {
 
@@ -64,11 +61,11 @@ describe('data update', function() {
             return doneHelper(e)
           }
 
-          fs.stat('./data/tzgeo.json', function(err, stats) {
+          fs.stat(TEST_DATA_DIR + '/index.json', function(err, stats) {
 
             try {
-              assert.property(err, 'code')
-              assert.equal(err.code, 'ENOENT')
+              assert.isOk(err)
+              assert.property(err, 'code', 'ENOENT')
             } catch(e) {
               return doneHelper(e)
             } 
@@ -86,7 +83,7 @@ describe('data update', function() {
 
     beforeEach(function(done) {
       fs.copy(LOCAL_FOLDER + 'different.sha1', 
-        MASTER_LOCAL_SHA_FILE,
+        TEST_SHA_FILE,
         done)
     })
 
@@ -105,13 +102,13 @@ describe('data update', function() {
 
       geoTz.updateData({
           mainUrl: BASE_URL + 'invalid_shape.zip', 
-          shaUrl: BASE_URL + 'invalid_shape.zip.sha1'
+          shaUrl: BASE_URL + 'invalid_shape.zip.sha1',
+          dataDir: TEST_DATA_DIR
         }, 
         function(err) {
           try {
             assert.isOk(err)
-            assert.property(err, 'message')
-            assert.equal(err.message, 'no layers founds')
+            assert.property(err, 'message', 'no layers founds')
           } catch(e) {
             return doneHelper(e)
           }
@@ -138,7 +135,8 @@ describe('data update', function() {
       // update timezone data by downloading it and extracting to geojson
       geoTz.updateData({
           mainUrl: BASE_URL + 'two_small_indiana_tzs.zip', 
-          shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1'
+          shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1',
+          dataDir: TEST_DATA_DIR
         }, 
         function(err) {
 
@@ -149,7 +147,7 @@ describe('data update', function() {
           }
 
           // check for geojson file existence
-          fs.stat('./data/tzgeo.json', function(err, stats) {
+          fs.stat(TEST_DATA_DIR + '/index.json', function(err, stats) {
 
             try {
               assert.isNotOk(err)

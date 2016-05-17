@@ -1,50 +1,44 @@
 var assert = require('chai').assert
 
-var fs = require('fs-extra'),
-  rimraf = require('rimraf')
+var fs = require('fs-extra')
+
+var util = require('./util.js')
 
 var createGeoIndex = require('../lib/createGeoIndex.js')
 
-var testTzData = require('./data/largeTz.json'),
+var TEST_DATA_DIR = './data-test-geoindex',
+  testTzData = require('./data/largeTz.json'),
   expectedIndexData = require('./data/expectedIndexData.json')
 
 describe('geoindex', function() {
 
-  before(function(done) {
-    fs.rename('./data', './data-master', done)
-  })
-
-  after(function(done) {
-    fs.rename('./data-master', './data', done)
-  })
-
   beforeEach(function(done) {
-    fs.mkdir('./data', done)
+    util.createDataDir(TEST_DATA_DIR, done)
   })
 
   afterEach(function(done) {
-    rimraf('./data-test', function(err) {
-      if(err) { return done(err) }
-      fs.rename('./data', './data-test', done)    
-    })
+    util.destroyDataDir(TEST_DATA_DIR, done)
   })
 
   it('should create geoindex of simple geometry', function(done) {
 
-    createGeoIndex(testTzData,
+    this.timeout(4000)
+    this.slow(2000)
+
+    createGeoIndex(testTzData, TEST_DATA_DIR,
       function(err) {
 
         assert.isNotOk(err)
 
-        var generatedIndex = require('../data/index.json')
+        var generatedIndex = require('.' + TEST_DATA_DIR + '/index.json')
 
         assert.deepEqual(generatedIndex, expectedIndexData)
 
         // also make sure certain subzone is written
-        fs.stat('./data/b/b/d/c/d/d/geo.json', function(err, stats) {
+        fs.stat(TEST_DATA_DIR + '/b/b/d/c/d/d/geo.json', function(err, stats) {
 
             assert.isNotOk(err)
-            assert.deepEqual(require('../data/b/b/d/c/d/d/geo.json'), require('./data/expectedSubzone.json'))
+            assert.deepEqual(require('.' + TEST_DATA_DIR + '/b/b/d/c/d/d/geo.json'), require('./data/expectedSubzone.json'))
 
             done()
 
