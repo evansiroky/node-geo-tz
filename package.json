@@ -40,7 +40,7 @@
     "download-status": "^2.2.1",
     "moment-timezone": "^0.5.3",
     "shpjs": "^3.3.2",
-    "turf-inside": "^1.1.4",
+    "turf-inside": "^3.0.5",
     "turf-point": "^2.0.0"
   }
 }
