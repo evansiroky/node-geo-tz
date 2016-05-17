@@ -26,7 +26,7 @@
     "codeclimate": "npm run cover && npm run codeclimate-send"
   },
   "devDependencies": {
-    "async": "^1.5.2",
+    "async": "^2.0.0-rc.5",
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.1",
     "cross-env": "^1.0.7",
@@ -34,7 +34,7 @@
     "download-status": "^2.2.1",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
-    "jsts": "^1.1.1",
+    "jsts": "^1.1.2",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
