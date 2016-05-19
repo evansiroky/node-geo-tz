@@ -25,13 +25,13 @@ describe('geoindex', function() {
     this.timeout(4000)
     this.slow(2000)
 
-    createGeoIndex(testTzData, TEST_DATA_DIR,
+    createGeoIndex(testTzData, TEST_DATA_DIR, 0.99,
       function(err) {
 
         assert.isNotOk(err)
 
         var generatedIndex = require('.' + TEST_DATA_DIR + '/index.json')
-
+        
         assert.deepEqual(generatedIndex, expectedIndexData)
 
         // also make sure certain subzone is written
