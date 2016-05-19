@@ -19,3 +19,7 @@ matrix:
     - node_js: "0.12"
       env: COVERAGE=true
       script: "npm run codeclimate"
+
+branches:
+  except:
+    - geo-index

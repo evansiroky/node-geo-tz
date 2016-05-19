@@ -5,9 +5,9 @@ var geoTz = require('../index.js')
 describe('find tests', function() {
   
   it('should find the timezone name for a valid coordinate', function() {
-    var tz = geoTz.tz(47.650499, -122.350070)
+    var tz = geoTz.tz(-89.999, 123.45)
     assert.isString(tz)
-    assert.equal(tz, 'America/Los_Angeles')
+    assert.equal(tz, 'uninhabited')
   })
 
   it('should return null timezone name for coordinate in ocean', function() {
@@ -18,9 +18,7 @@ describe('find tests', function() {
   it('should return a moment-timezone', function() {
     var tzMoment = geoTz.tzMoment(47.650499, -122.350070)
     assert.isObject(tzMoment)
-    assert.property(tzMoment, '_z')
-    assert.property(tzMoment._z, 'name')
-    assert.equal(tzMoment._z.name, 'America/Los_Angeles')
+    assert.deepPropertyVal(tzMoment, '_z.name', 'America/Los_Angeles')
   })
 
   it('should return null timezone moment for coordinate in ocean', function() {
