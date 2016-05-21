@@ -1,4 +1,8 @@
+sudo: false
 language: node_js
+cache:
+  directories:
+    - node_modules
 
 node_js:
   - "5"
@@ -20,6 +24,12 @@ matrix:
       env: COVERAGE=true
       script: "npm run codeclimate"
 
+before_install:
+  - npm i -g npm@^2.0.0
+before_script:
+  - npm prune
+after_success:
+  - npm run semantic-release
 branches:
   except:
-    - geo-index
+    - /^v\d+\.\d+\.\d+$/

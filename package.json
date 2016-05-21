@@ -1,6 +1,6 @@
 {
   "name": "geo-tz",
-  "version": "2.0.0",
+  "version": "0.0.0-semantically-released",
   "description": "Node.js timezone lookup from tz_world data",
   "keywords": [
     "timezone"
@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evansiroky/node-geo-tz.git"
+    "url": "https://github.com/evansiroky/node-geo-tz.git"
   },
   "bugs": {
     "url": "https://github.com/evansiroky/node-geo-tz/issues"
@@ -22,13 +22,15 @@
     "precover": "rimraf coverage",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
     "codeclimate-send": "cross-env CODECLIMATE_REPO_TOKEN=5f0631a32476e00dbcaa60c57e0a03a71a8d7be6b08f4d93b1db55c067179091 ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
-    "codeclimate": "npm run cover && npm run codeclimate-send"
+    "codeclimate": "npm run cover && npm run codeclimate-send",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "async": "^2.0.0-rc.5",
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.1",
     "cross-env": "^1.0.7",
+    "cz-conventional-changelog": "^1.1.6",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
     "jsts": "^1.1.2",
@@ -37,6 +39,7 @@
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
     "rimraf": "^2.5.2",
+    "semantic-release": "^4.3.5",
     "shpjs": "^3.3.2",
     "turf-featurecollection": "^1.0.1",
     "turf-polygon": "^1.0.3"
@@ -45,5 +48,10 @@
     "moment-timezone": "0.5.3",
     "turf-inside": "^3.0.5",
     "turf-point": "^2.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
