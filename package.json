@@ -29,8 +29,6 @@
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.1",
     "cross-env": "^1.0.7",
-    "download": "^4.4.3",
-    "download-status": "^2.2.1",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
     "jsts": "^1.1.2",
