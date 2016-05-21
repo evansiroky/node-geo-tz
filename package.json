@@ -30,7 +30,6 @@
     "codeclimate-test-reporter": "^0.3.1",
     "cross-env": "^1.0.7",
     "fs-extra": "^0.30.0",
-    "get-down": "^1.1.0",
     "istanbul": "^0.4.2",
     "jsts": "^1.1.2",
     "lodash": "^4.11.2",
