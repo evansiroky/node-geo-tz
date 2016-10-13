@@ -1,165 +1,76 @@
+/* globals afterEach, beforeEach, describe, it */
+
 var fs = require('fs-extra')
 
-var assert = require('chai').assert,
-  nock = require('nock'),
-  rimraf = require('rimraf')
+var assert = require('chai').assert
+var nock = require('nock')
 
 var util = require('./util.js')
 
-var geoTz = require('../index.js')
+var update = require('../lib/update.js')
 
-var MASTER_DATA_DIR = './data',
-  TEST_DATA_DIR = './data-test-update',
-  BASE_URL = 'http://example.com/',
-  NOCK_HOST = 'http://example.com',
-  LOCAL_FOLDER = './tests/data/',
-  TEST_SHA_FILE = TEST_DATA_DIR + '/tz_world_mp.zip.sha1'
+var TEST_DATA_DIR = './data-test-update'
+var LOCAL_FOLDER = './tests/data/'
 
-
-describe('data update', function() {
-
+describe('data update', function () {
   this.timeout(4000)
   this.slow(2000)
 
-  beforeEach(function(done) {
+  beforeEach(function (done) {
     util.createDataDir(TEST_DATA_DIR, done)
   })
 
-  afterEach(function(done) {
+  afterEach(function (done) {
     util.destroyDataDir(TEST_DATA_DIR, done)
   })
 
-  describe('cases with same sha1', function() {
+  it('tz geojson should get updated after fetching valid shapefile', function (done) {
+    var aWhileAgo = (new Date()).getTime() - 100000
 
-    beforeEach(function(done) {
-      fs.copy(LOCAL_FOLDER + 'two_small_indiana_tzs.zip.sha1', 
-        TEST_SHA_FILE,
-        done)
-    })
+    var latestRepoMock = {
+      assets: [
+        {
+          browser_download_url: 'https://github.com/evansiroky/timezone-boundary-builder/releases/download/2016d/timezones.geojson.zip'
+        }
+      ]
+    }
 
-    it('new zip file should not be downloaded if not needed', function(done) {
+    var githubApiScope = nock('https://api.github.com')
+      .get('/repos/evansiroky/timezone-boundary-builder/releases/latest')
+      .reply(200, JSON.stringify(latestRepoMock))
 
-      var scope = nock(NOCK_HOST)
-        .get('/two_small_indiana_tzs.zip.sha1')
-        .replyWithFile(200, LOCAL_FOLDER + 'two_small_indiana_tzs.zip.sha1')
+    var githubDlScope = nock('https://github.com')
+      .get('/evansiroky/timezone-boundary-builder/releases/download/2016d/timezones.geojson.zip')
+      .replyWithFile(200, LOCAL_FOLDER + 'dist.zip')
 
-      var doneHelper = function(err) {
-        scope.done()
-        done(err)
+    var doneHelper = function (err) {
+      githubApiScope.done()
+      githubDlScope.done()
+      done(err)
+    }
+
+    // update timezone data by downloading it and extracting to geojson
+    update({
+      dataDir: TEST_DATA_DIR
+    },
+    function (err) {
+      try {
+        assert.isNotOk(err)
+      } catch (e) {
+        return doneHelper(e)
       }
 
-      geoTz.updateData({
-          mainUrl: BASE_URL + 'two_small_indiana_tzs.zip', 
-          shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1',
-          dataDir: TEST_DATA_DIR
-        }, 
-        function(err) {
+      // check for geojson file existence
+      fs.stat(TEST_DATA_DIR + '/index.json', function (err, stats) {
+        try {
+          assert.isNotOk(err)
+          assert.isAbove(stats.ctime.getTime(), aWhileAgo, 'file update time is before test!')
+        } catch (e) {
+          return doneHelper(e)
+        }
 
-          try {
-            assert.isNotOk(err)
-          } catch(e) {
-            return doneHelper(e)
-          }
-
-          fs.stat(TEST_DATA_DIR + '/index.json', function(err, stats) {
-
-            try {
-              assert.isOk(err)
-              assert.property(err, 'code', 'ENOENT')
-            } catch(e) {
-              return doneHelper(e)
-            } 
-
-            doneHelper()
-
-          })
-
-        })
-    })
-
-  })
-
-  describe('cases with different sha1', function() {
-
-    beforeEach(function(done) {
-      fs.copy(LOCAL_FOLDER + 'different.sha1', 
-        TEST_SHA_FILE,
-        done)
-    })
-
-    it('error should be caught when parsing invalid shapefile', function(done) {
-
-      var scope = nock(NOCK_HOST)
-        .get('/invalid_shape.zip.sha1')
-        .replyWithFile(200, LOCAL_FOLDER + 'invalid_shape.zip.sha1')
-        .get('/invalid_shape.zip')
-        .replyWithFile(200, LOCAL_FOLDER + 'invalid_shape.zip')
-
-      var doneHelper = function(err) {
-        scope.done()
-        done(err)
-      }
-
-      geoTz.updateData({
-          mainUrl: BASE_URL + 'invalid_shape.zip', 
-          shaUrl: BASE_URL + 'invalid_shape.zip.sha1',
-          dataDir: TEST_DATA_DIR
-        }, 
-        function(err) {
-          try {
-            assert.isOk(err)
-            assert.property(err, 'message', 'no layers founds')
-          } catch(e) {
-            return doneHelper(e)
-          }
-
-          doneHelper()
-        })
-    })
-  
-    it('tz geojson should get updated after fetching valid shapefile', function(done) {
-
-      var aWhileAgo = (new Date()).getTime() - 100000
-
-      var scope = nock(NOCK_HOST)
-        .get('/two_small_indiana_tzs.zip.sha1')
-        .replyWithFile(200, LOCAL_FOLDER + 'two_small_indiana_tzs.zip.sha1')
-        .get('/two_small_indiana_tzs.zip')
-        .replyWithFile(200, LOCAL_FOLDER + 'two_small_indiana_tzs.zip')
-
-      var doneHelper = function(err) {
-        scope.done()
-        done(err)
-      }
-
-      // update timezone data by downloading it and extracting to geojson
-      geoTz.updateData({
-          mainUrl: BASE_URL + 'two_small_indiana_tzs.zip', 
-          shaUrl: BASE_URL + 'two_small_indiana_tzs.zip.sha1',
-          dataDir: TEST_DATA_DIR
-        }, 
-        function(err) {
-
-          try {
-            assert.isNotOk(err)
-          } catch(e) {
-            return doneHelper(e)
-          }
-
-          // check for geojson file existence
-          fs.stat(TEST_DATA_DIR + '/index.json', function(err, stats) {
-
-            try {
-              assert.isNotOk(err)
-              assert.isAbove(stats.ctime.getTime(), aWhileAgo, 'file update time is before test!')
-            } catch(e) {
-              return doneHelper(e)
-            } 
-
-            doneHelper()
-
-          })
-        })
+        doneHelper()
+      })
     })
   })
 })

@@ -1,1 +1,1 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"TZID":"test_tz"},"geometry":{"type":"Polygon","coordinates":[[[-114.60937499999999,44.99995],[-114.60937499999999,46.07323062540838],[-112.49993749999999,46.07323062540838],[-112.49993749999999,44.99995],[-114.60937499999999,44.99995]]]}}]}
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"tzid":"test_tz"},"geometry":{"type":"Polygon","coordinates":[[[-114.609375,44.99995],[-114.609375,46.073231],[-112.499937,46.073231],[-112.499937,44.99995],[-114.609375,44.99995]]]}}]}
