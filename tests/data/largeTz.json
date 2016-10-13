@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "TZID": "test_tz"
+        "tzid": "test_tz"
       },
       "geometry": {
         "type": "Polygon",

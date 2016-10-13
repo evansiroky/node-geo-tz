@@ -1,8 +1,6 @@
-var find = require('./lib/find.js'),
-  update = require('./lib/update.js')
+var find = require('./lib/find.js')
 
 module.exports = {
-  updateData: update,
   tz: find.timezone,
   tzMoment: find.timezoneMoment
 }

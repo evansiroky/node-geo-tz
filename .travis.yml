@@ -1,14 +1,10 @@
 sudo: false
 language: node_js
-cache:
-  directories:
-    - node_modules
 
 node_js:
+  - "6"
   - "5"
   - "4"
-  - "0.12"
-  - "0.10"
 
 env:
   - COVERAGE=false
@@ -16,16 +12,14 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "0.12"
+    - node_js: "4"
       env: COVERAGE=true
       script: "npm run codeclimate"
   allow_failures:
-    - node_js: "0.12"
+    - node_js: "4"
       env: COVERAGE=true
       script: "npm run codeclimate"
 
-before_install:
-  - npm i -g npm@^2.0.0
 before_script:
   - npm prune
 after_success:
