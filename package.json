@@ -15,6 +15,9 @@
     "url": "https://github.com/evansiroky/node-geo-tz/issues"
   },
   "homepage": "https://github.com/evansiroky/node-geo-tz#readme",
+  "engines": {
+    "node": ">=4"
+  },
   "main": "index.js",
   "scripts": {
     "updateTzData": "node scripts/updateData.js",
