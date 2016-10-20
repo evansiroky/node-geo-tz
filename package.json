@@ -34,7 +34,7 @@
     "codeclimate-test-reporter": "^0.4.0",
     "cross-env": "^3.0.0",
     "cz-conventional-changelog": "^1.1.6",
-    "follow-redirects": "^0.2.0",
+    "follow-redirects": "^0.3.0",
     "fs-extra": "^0.30.0",
     "istanbul": "^0.4.2",
     "jsts": "^1.1.2",
