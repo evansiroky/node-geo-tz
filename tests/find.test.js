@@ -4,6 +4,8 @@ var assert = require('chai').assert
 
 var geoTz = require('../index.js')
 
+process.chdir('/tmp')
+
 describe('find tests', function () {
   it('should find the timezone name for a valid coordinate', function () {
     var tz = geoTz.tz(47.650499, -122.350070)

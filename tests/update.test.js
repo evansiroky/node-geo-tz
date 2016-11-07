@@ -10,7 +10,7 @@ var util = require('./util.js')
 var update = require('../lib/update.js')
 
 var TEST_DATA_DIR = './data-test-update'
-var LOCAL_FOLDER = './tests/data/'
+var LOCAL_FOLDER = __dirname + '/../tests/data/'
 
 describe('data update', function () {
   this.timeout(4000)
