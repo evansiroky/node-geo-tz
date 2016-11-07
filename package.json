@@ -1,7 +1,7 @@
 {
   "name": "geo-tz",
   "version": "0.0.0-semantically-released",
-  "description": "Node.js timezone lookup from tz_world data",
+  "description": "A node.js module to find the timezone at specific gps coordinates",
   "keywords": [
     "timezone"
   ],

@@ -3,6 +3,7 @@
 var assert = require('chai').assert
 
 var geoTz = require('../index.js')
+var issueCoords = require('./data/issues.json')
 
 process.chdir('/tmp')
 
@@ -38,5 +39,15 @@ describe('find tests', function () {
   it('should parse time correctly', function () {
     var tzMoment = geoTz.tzMoment(47.650499, -122.350070, '2016-03-30T01:23:45Z')
     assert.equal(tzMoment.format('LLLL'), 'Tuesday, March 29, 2016 6:23 PM')
+  })
+
+  describe('issue cases', function () {
+    issueCoords.forEach(function (spot) {
+      it('should find ' + spot.zid, function () {
+        var tz = geoTz.tz(spot.lat, spot.lon)
+        assert.isString(tz)
+        assert.equal(tz, spot.zid)
+      })
+    })
   })
 })
