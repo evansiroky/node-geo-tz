@@ -9,7 +9,7 @@ var util = require('./util.js')
 
 var createGeoIndex = require('../lib/createGeoIndex.js')
 
-var TEST_DATA_DIR = './data-test-geoindex'
+var TEST_DATA_DIR = __dirname + '/../data-test-geoindex'
 var testTzData = require('./data/largeTz.json')
 var expectedIndexData = require('./data/expectedIndexData.json')
 
@@ -30,7 +30,7 @@ describe('geoindex', function () {
       function (err) {
         assert.isNotOk(err)
 
-        var generatedIndex = require('.' + TEST_DATA_DIR + '/index.json')
+        var generatedIndex = require(TEST_DATA_DIR + '/index.json')
 
         assert.deepEqual(generatedIndex, expectedIndexData)
 
