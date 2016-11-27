@@ -17,7 +17,7 @@ util.createDataDir = function (dir, callback) {
 }
 
 util.destroyDataDir = function (dir, callback) {
-  rimraf(dir, callback)
+  async.each([dir, dir + '.zip'], rimraf, callback)
 }
 
 module.exports = util

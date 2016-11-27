@@ -10,6 +10,7 @@ var util = require('./util.js')
 var update = require('../lib/update.js')
 
 var TEST_DATA_DIR = './data-test-update'
+var resolvedDataDir = __dirname + '/../' + TEST_DATA_DIR
 var LOCAL_FOLDER = __dirname + '/../tests/data/'
 
 describe('data update', function () {
@@ -17,11 +18,11 @@ describe('data update', function () {
   this.slow(2000)
 
   beforeEach(function (done) {
-    util.createDataDir(TEST_DATA_DIR, done)
+    util.createDataDir(resolvedDataDir, done)
   })
 
   afterEach(function (done) {
-    util.destroyDataDir(TEST_DATA_DIR, done)
+    util.destroyDataDir(resolvedDataDir, done)
   })
 
   it('tz geojson should get updated after fetching valid shapefile', function (done) {
@@ -61,7 +62,7 @@ describe('data update', function () {
       }
 
       // check for geojson file existence
-      fs.stat(TEST_DATA_DIR + '/index.json', function (err, stats) {
+      fs.stat(resolvedDataDir + '/index.json', function (err, stats) {
         try {
           assert.isNotOk(err)
           assert.isAbove(stats.ctime.getTime(), aWhileAgo, 'file update time is before test!')
