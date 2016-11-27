@@ -11,7 +11,7 @@ var update = require('../lib/update.js')
 
 var TEST_DATA_DIR = './data-test-update'
 var resolvedDataDir = __dirname + '/../' + TEST_DATA_DIR
-var LOCAL_FOLDER = __dirname + '/../tests/data/'
+var LOCAL_FOLDER = __dirname + '/../tests/fixtures/'
 
 describe('data update', function () {
   this.timeout(4000)

@@ -13,7 +13,7 @@ describe('unzip-data', function () {
   beforeEach(function (done) {
     util.destroyDataDir(EXPECTED_DATA_DIR, function (err) {
       if (err) return done(err)
-      fs.copy(__dirname + '/data/data-test-unzip.zip', EXPECTED_DATA_DIR + '.zip', done)
+      fs.copy(__dirname + '/fixtures/data-test-unzip.zip', EXPECTED_DATA_DIR + '.zip', done)
     })
   })
 

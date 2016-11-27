@@ -10,8 +10,8 @@ var util = require('./util.js')
 var createGeoIndex = require('../lib/geo-index')
 
 var TEST_DATA_DIR = __dirname + '/../data-test-geoindex'
-var testTzData = require('./data/largeTz.json')
-var expectedIndexData = require('./data/expectedIndexData.json')
+var testTzData = require('./fixtures/largeTz.json')
+var expectedIndexData = require('./fixtures/expectedIndexData.json')
 
 describe('geoindex', function () {
   beforeEach(function (done) {
@@ -40,7 +40,7 @@ describe('geoindex', function () {
             assert.isNotOk(err)
             var data = new Pbf(fs.readFileSync(TEST_DATA_DIR + '/b/b/d/c/d/d/geo.buf'))
 
-            assert.deepEqual(geobuf.decode(data), require('./data/expectedSubzone.json'))
+            assert.deepEqual(geobuf.decode(data), require('./fixtures/expectedSubzone.json'))
             done()
           }
         )

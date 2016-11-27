@@ -1,0 +1,48 @@
+[
+  {
+    "zid": "Atlantic/Bermuda",
+    "lat": 32.359658,
+    "lon": -64.701434,
+    "description": "#10: find a point on land that efele.net shapefile says is in water"
+  }, {
+    "zid": "Asia/Famagusta",
+    "lat": 35.128174,
+    "lon": 33.935573,
+    "description": "#34: 2016i update"
+  }, {
+    "zid": "Asia/Nicosia",
+    "lat": 34.671412,
+    "lon": 33.043626,
+    "description": "#34: 2016i update"
+  }, {
+    "zid": "Australia/Adelaide",
+    "lat": -34.9286,
+    "lon": 138.6,
+    "description": "#32: subarea lookup bug"
+  }, {
+    "zid": "Europe/London",
+    "lat": 53.539677,
+    "lon": -2.714855,
+    "description": "#32: subarea lookup bug"
+  }, {
+    "zid": "Asia/Atyrau",
+    "lat": 47.086125,
+    "lon": 51.908557,
+    "description": "#37: 2016j update"
+  }, {
+    "zid": "Asia/Aqtau",
+    "lat": 43.625114,
+    "lon": 51.192965,
+    "description": "#37: 2016j update"
+  }, {
+    "zid": "Europe/Saratov",
+    "lat": 51.541768,
+    "lon": 45.998798,
+    "description": "#37: 2016j update"
+  }, {
+    "zid": "Europe/Volgograd",
+    "lat": 48.712475,
+    "lon": 44.513414,
+    "description": "#37: 2016j update"
+  }
+]
