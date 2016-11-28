@@ -3,7 +3,7 @@
 var assert = require('chai').assert
 
 var geoTz = require('../index.js')
-var issueCoords = require('./data/issues.json')
+var issueCoords = require('./fixtures/issues.json')
 
 process.chdir('/tmp')
 
@@ -43,7 +43,7 @@ describe('find tests', function () {
 
   describe('issue cases', function () {
     issueCoords.forEach(function (spot) {
-      it('should find ' + spot.zid, function () {
+      it('should find ' + spot.zid + ' (' + spot.description + ')', function () {
         var tz = geoTz.tz(spot.lat, spot.lon)
         assert.isString(tz)
         assert.equal(tz, spot.zid)

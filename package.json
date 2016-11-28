@@ -20,19 +20,18 @@
   },
   "main": "index.js",
   "scripts": {
-    "updateTzData": "node scripts/updateData.js",
-    "test": "mocha \"tests/**/*.js\"",
-    "precover": "rimraf coverage",
-    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
-    "codeclimate-send": "cross-env CODECLIMATE_REPO_TOKEN=5f0631a32476e00dbcaa60c57e0a03a71a8d7be6b08f4d93b1db55c067179091 ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
     "codeclimate": "npm run cover && npm run codeclimate-send",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "codeclimate-send": "./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
+    "prepublish": "node scripts/unzip-data.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test": "mocha \"tests/**/*.js\"",
+    "updateTzData": "node scripts/update-data.js"
   },
   "devDependencies": {
     "async": "^2.0.0-rc.5",
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.4.0",
-    "cross-env": "^3.0.0",
     "cz-conventional-changelog": "^1.1.6",
     "follow-redirects": "^1.0.0",
     "fs-extra": "^1.0.0",
@@ -46,11 +45,12 @@
     "semantic-release": "^6.3.2",
     "turf-featurecollection": "^1.0.1",
     "turf-polygon": "^1.0.3",
-    "yauzl": "^2.6.0"
+    "yauzl": "^2.6.0",
+    "yazl": "^2.4.2"
   },
   "dependencies": {
     "geobuf": "^3.0.0",
-    "moment-timezone": "0.5.9",
+    "moment-timezone": "0.5.10",
     "pbf": "^3.0.2",
     "turf-inside": "^3.0.5",
     "turf-point": "^2.0.0"
