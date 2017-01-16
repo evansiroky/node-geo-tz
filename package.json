@@ -34,7 +34,7 @@
     "codeclimate-test-reporter": "^0.4.0",
     "cz-conventional-changelog": "^1.1.6",
     "follow-redirects": "^1.0.0",
-    "fs-extra": "^1.0.0",
+    "fs-extra": "^2.0.0",
     "istanbul": "^0.4.2",
     "jsts": "^1.1.2",
     "lodash": "^4.11.2",
