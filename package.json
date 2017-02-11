@@ -43,17 +43,15 @@
     "nock": "^9.0.5",
     "rimraf": "^2.5.2",
     "semantic-release": "^6.3.2",
-    "turf-featurecollection": "^1.0.1",
-    "turf-polygon": "^1.0.3",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.2"
   },
   "dependencies": {
+    "@turf/helpers": "^3.7.5",
+    "@turf/inside": "^3.7.5",
     "geobuf": "^3.0.0",
     "moment-timezone": "0.5.11",
-    "pbf": "^3.0.5",
-    "turf-inside": "^3.0.5",
-    "turf-point": "^2.0.0"
+    "pbf": "^3.0.5"
   },
   "config": {
     "commitizen": {
