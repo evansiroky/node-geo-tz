@@ -79,5 +79,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # project exclusions
-downloads
+.gitattributes
 data.zip
+downloads
+scripts
+tests
