@@ -1,7 +1,7 @@
 # node-geo-tz
 [![npm version](https://badge.fury.io/js/geo-tz.svg)](http://badge.fury.io/js/geo-tz) [![Build Status](https://travis-ci.org/evansiroky/node-geo-tz.svg?branch=master)](https://travis-ci.org/evansiroky/node-geo-tz) [![Dependency Status](https://david-dm.org/evansiroky/node-geo-tz.svg)](https://david-dm.org/evansiroky/node-geo-tz) [![Test Coverage](https://codeclimate.com/github/evansiroky/node-geo-tz/badges/coverage.svg)](https://codeclimate.com/github/evansiroky/node-geo-tz/coverage)
 
-A node.js module to find the timezone at specific gps coordinates
+The most up-to-date and accurate node.js geographical timezone lookup package.  It's fast too!
 
 ## Install
 
