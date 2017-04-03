@@ -47,7 +47,7 @@
     "yazl": "^2.4.2"
   },
   "dependencies": {
-    "@turf/helpers": "^3.7.5",
+    "@turf/helpers": "^4.0.0",
     "@turf/inside": "^3.7.5",
     "geobuf": "^3.0.0",
     "moment-timezone": "0.5.11",
