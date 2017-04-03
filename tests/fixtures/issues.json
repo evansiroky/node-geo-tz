@@ -44,5 +44,20 @@
     "lat": 48.712475,
     "lon": 44.513414,
     "description": "#37: 2016j update"
+  }, {
+    "zid": "America/Punta_Arenas",
+    "lat": -53.168394,
+    "lon": -70.911243,
+    "description": "#54: 2017a update - New Zone: America/Punta_Arenas"
+  }, {
+    "zid": "America/New_York",
+    "lat": 32.471726,
+    "lon": -85.004259,
+    "description": "#54: 2017a update - Phenix City, AL"
+  }, {
+    "zid": "America/Chicago",
+    "lat": 44.370520,
+    "lon": -100.388835,
+    "description": "#54: 2017a update - Fort Pierre, SD"
   }
 ]
