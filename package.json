@@ -47,10 +47,10 @@
     "yazl": "^2.4.2"
   },
   "dependencies": {
-    "@turf/helpers": "^3.10.5",
-    "@turf/inside": "^3.10.5",
+    "@turf/helpers": "^4.0.0",
+    "@turf/inside": "^4.0.0",
     "geobuf": "^3.0.0",
-    "moment-timezone": "0.5.11",
+    "moment-timezone": "0.5.12",
     "pbf": "^3.0.5"
   },
   "config": {
