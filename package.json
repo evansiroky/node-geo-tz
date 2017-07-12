@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "async": "^2.1.5",
-    "chai": "^3.5.0",
+    "chai": "^4.1.0",
     "codeclimate-test-reporter": "^0.4.1",
     "cz-conventional-changelog": "^2.0.0",
     "follow-redirects": "^1.2.1",
