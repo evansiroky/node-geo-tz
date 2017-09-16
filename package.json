@@ -42,7 +42,7 @@
     "mocha": "^3.2.0",
     "nock": "^9.0.9",
     "rimraf": "^2.6.1",
-    "semantic-release": "^6.3.2",
+    "semantic-release": "^8.0.0",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.2"
   },
