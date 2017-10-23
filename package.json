@@ -40,7 +40,7 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "mocha": "^4.0.0",
-    "nock": "^9.0.9",
+    "nock": "9.0.24",
     "rimraf": "^2.6.1",
     "semantic-release": "^8.0.0",
     "yauzl": "^2.6.0",
