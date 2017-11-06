@@ -45,9 +45,9 @@ describe('find tests', function () {
         })
 
         it('should return a moment-timezone', function () {
-          var tzMoment = geoTz.tzMoment(47.650499, -122.350070, options)
+          var tzMoment = geoTz.tzMoment(47.650499, -122.350070, null, options)
           assert.isObject(tzMoment)
-          assert.deepPropertyVal(tzMoment, '_z.name', 'America/Los_Angeles')
+          assert.equal(tzMoment._z.name, 'America/Los_Angeles')
         })
 
         it('should return null timezone moment for coordinate in ocean', function () {
@@ -71,11 +71,13 @@ describe('find tests', function () {
         })
 
         describe('performance aspects', function() {
+          this.timeout(10000)
+
           var europeTopLeft = [56.432158, -11.9263934]
           var europeBottomRight = [39.8602076, 34.9127951]
           var count = 2000
 
-          it('should find timezone of ' + count + ' random european positions')
+          it('should find timezone of ' + count + ' random european positions', function () {
             var timingStr = 'find tz of ' + count + ' random european positions with ' + featureProvider.name
             console.time(timingStr)
             for(var i=0; i<count; i++) {
@@ -85,6 +87,7 @@ describe('find tests', function () {
                 options)
             }
             console.timeEnd(timingStr);
+          })
         })
       })
     })

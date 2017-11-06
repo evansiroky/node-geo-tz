@@ -59,5 +59,55 @@
     "lat": 44.370520,
     "lon": -100.388835,
     "description": "#54: 2017a update - Fort Pierre, SD"
+  }, {
+    "zid": "Asia/Shanghai",
+    "lat": 46.796452,
+    "lon": 130.383766,
+    "description": "#72: 2017c update - New Chinese timezone geometry"
+  }, {
+    "zid": "Asia/Urumqi",
+    "lat": 43.839319,
+    "lon": 87.526148,
+    "description": "#72: 2017c update - New Chinese timezone geometry"
+  }, {
+    "zid": "America/Chicago",
+    "lat": 29.932750,
+    "lon": -85.398084,
+    "description": "#72: 2017c update - Issue w/ Mexico Beach, FL"
+  }, {
+    "zid": "America/Atikokan",
+    "lat": 64.136055,
+    "lon": -83.163337,
+    "description": "#72: 2017c update - America/Coral_Harbour now integrated into America/Atikokan"
+  }, {
+    "zid": "America/Toronto",
+    "lat": 45.503603,
+    "lon": -73.587138,
+    "description": "#72: 2017c update - America/Montreal now integrated into America/Toronto"
+  }, {
+    "zid": "Asia/Yangon",
+    "lat": 16.767559,
+    "lon": 96.162171,
+    "description": "#72: 2017c update - Asia/Rangoon renamed to Asia/Yangon"
+  }, {
+    "zid": "Pacific/Chuuk",
+    "lat": 9.515652,
+    "lon": 138.123621,
+    "description": "#72: 2017c update - Pacific/Yap integrated into Pacific/Chuuk"
+  }, {
+    "zid": "Pacific/Honolulu",
+    "lat": 16.729065,
+    "lon": -169.529102,
+    "description": "#72: 2017c update - Pacific/Johnston integrated into Pacific/Honolulu"
+  }, {
+    "zid": "America/Halifax",
+    "lat": 46.569479,
+    "lon": -63.423003,
+    "description": "#72: 2017c update - Sea boundaries of Gulf of St Lawrence changed."
+  }, {
+    "zid": "America/Phoenix",
+    "lat": 36.924496,
+    "lon": -111.449088,
+    "description": "#72: 2017c update - Add Page, AZ to America/Phoenix"
   }
 ]

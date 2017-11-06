@@ -17,13 +17,13 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 
 ## API Docs:
 
-### .tz(lat, lon)
+### .tz(lat, lon, [options])
 
-Returns timezone name found at `lat`, `lon`.  Returns null if timezone could not be found at coordinate.
+Returns timezone name found at `lat`, `lon`.  Returns null if timezone could not be found at coordinate.  See the Advanced Usage section for documentaiton of the `options` argument.
 
-### .tzMoment(lat, lon, [dateTime])
+### .tzMoment(lat, lon, [dateTime], [options])
 
-Returns a moment-timezone object found at `lat`, `lon`.  Returns null if timezone could not be found at coordinate.  If `dateTime` is omitted, the moment-timezone will have the current time set.  If `dateTime` is provided, moment-timezone will be set to the time provided according to the timezone found.  `dateTime` can be any single-argument parameter that will get passed to the [`moment()` parser](http://momentjs.com/docs/#/parsing/).
+Returns a moment-timezone object found at `lat`, `lon`.  Returns null if timezone could not be found at coordinate.  If `dateTime` is omitted, the moment-timezone will have the current time set.  If `dateTime` is provided, moment-timezone will be set to the time provided according to the timezone found.  `dateTime` can be any single-argument parameter that will get passed to the [`moment()` parser](http://momentjs.com/docs/#/parsing/).  If providing the `options` argument, you must also send an argument for `dateTime` (send "null" to get the current time).
 
 ## Advanced usage:
 
