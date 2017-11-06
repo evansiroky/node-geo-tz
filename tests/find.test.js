@@ -71,7 +71,7 @@ describe('find tests', function () {
         })
 
         describe('performance aspects', function() {
-          this.timeout(10000)
+          this.timeout(20000)
 
           var europeTopLeft = [56.432158, -11.9263934]
           var europeBottomRight = [39.8602076, 34.9127951]
