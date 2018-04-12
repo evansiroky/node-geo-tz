@@ -23,7 +23,7 @@ describe('find tests', function () {
 
   it('should return null timezone name for coordinate in ocean', function () {
     var tz = geoTz(0, 0)
-    assert.isNull(tz)
+    assert.equal(tz, 'Etc/GMT')
   })
 
   describe('issue cases', function () {
