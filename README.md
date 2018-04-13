@@ -11,7 +11,7 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 
     var geoTz = require('geo-tz')
 
-    geoTz.tz(47.650499, -122.350070)  // 'America/Los_Angeles'
+    geoTz(47.650499, -122.350070)  // 'America/Los_Angeles'
 
 ## API Docs:
 
