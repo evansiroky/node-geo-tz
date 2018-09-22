@@ -109,5 +109,10 @@
     "lat": 36.924496,
     "lon": -111.449088,
     "description": "#72: 2017c update - Add Page, AZ to America/Phoenix"
+  }, {
+    "zid": "Europe/Oslo",
+    "lat": 59.76556,
+    "lon": 10,
+    "description": "#79: 89.99 vs 99 in quadree calculation"
   }
 ]
