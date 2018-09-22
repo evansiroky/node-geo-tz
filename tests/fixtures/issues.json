@@ -113,6 +113,6 @@
     "zid": "Europe/Oslo",
     "lat": 59.76556,
     "lon": 10,
-    "description": "#79: 89.99 vs 99 in quadree calculation"
+    "description": "#79: 89.99 vs 90.00 in quadtree calculation"
   }
 ]
