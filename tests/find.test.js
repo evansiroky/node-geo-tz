@@ -51,7 +51,7 @@ describe('find tests', function () {
     var europeBottomRight = [39.8602076, 34.9127951]
     var count = 2000
 
-    it('should find timezone of ' + count + ' random european positions', function () {
+    var findRandomPositions = function () {
       var timingStr = 'find tz of ' + count + ' random european positions'
       console.time(timingStr)
       for (var i = 0; i < count; i++) {
@@ -61,6 +61,19 @@ describe('find tests', function () {
         )
       }
       console.timeEnd(timingStr)
-    })
+    }
+
+    it(
+      'should find timezone of ' + count + ' random european positions with on-demand caching',
+      findRandomPositions
+    )
+
+    it(
+      'should find timezone of ' + count + ' random european positions with precache',
+      function () {
+        geoTz.preCache()
+        findRandomPositions()
+      }
+    )
   })
 })

@@ -12,6 +12,7 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 ```javascript
     var geoTz = require('geo-tz')
 
+    geoTz.preCache()  // optionally load all features into memory
     geoTz(47.650499, -122.350070)  // ['America/Los_Angeles']
     geoTz(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
 ```
@@ -26,7 +27,11 @@ Returns the timezone names found at `lat`, `lon`.  The timezone names will be th
 
 This library does an exact geographic lookup which has tradeoffs.  It is perhaps a little bit slower that other libraries, has a larger installation size on disk and cannot be used in the browser.  However, the results are more accurate than other libraries that compromise by approximating the lookup of the data.
 
-The data is indexed for fast analysis with automatic caching (with time expiration) of subregions of geographic data for when a precise lookup is needed.
+The data is indexed for fast analysis with automatic caching with time expiration (or optional an unexpiring cache of the whole world) of subregions of geographic data for when a precise lookup is needed.
+
+### geoTz.preCache()
+
+Loads all geographic features into memory in an unexpiring cache.  This has tradeoffs.  More memory will be consumed and it will take a little longer before the program is ready to start looking up features, but future lookups will be a lot faster - especially for areas which haven't had a lookup in a while.
 
 ## An Important Note About Maintenance
 
