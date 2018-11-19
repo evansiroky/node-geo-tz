@@ -2,11 +2,11 @@ sudo: false
 language: node_js
 
 node_js:
+  - "10"
+  - "9"
   - "8"
   - "7"
   - "6"
-  - "5"
-  - "4"
 
 env:
   - COVERAGE=false
@@ -14,18 +14,18 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "4"
+    - node_js: "6"
       env: COVERAGE=true
       script: "npm run codeclimate"
   allow_failures:
-    - node_js: "4"
+    - node_js: "6"
       env: COVERAGE=true
       script: "npm run codeclimate"
 
 before_script:
   - npm prune
 after_success:
-  - npm run semantic-release
+  - travis-deploy-once "npm run semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

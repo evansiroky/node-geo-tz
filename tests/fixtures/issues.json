@@ -60,16 +60,6 @@
     "lon": -100.388835,
     "description": "#54: 2017a update - Fort Pierre, SD"
   }, {
-    "zid": "Asia/Shanghai",
-    "lat": 46.796452,
-    "lon": 130.383766,
-    "description": "#72: 2017c update - New Chinese timezone geometry"
-  }, {
-    "zid": "Asia/Urumqi",
-    "lat": 43.839319,
-    "lon": 87.526148,
-    "description": "#72: 2017c update - New Chinese timezone geometry"
-  }, {
     "zid": "America/Chicago",
     "lat": 29.932750,
     "lon": -85.398084,
@@ -114,5 +104,10 @@
     "lat": 59.76556,
     "lon": 10,
     "description": "#79: 89.99 vs 90.00 in quadtree calculation"
+  }, {
+    "zids": ["Asia/Shanghai", "Asia/Urumqi"],
+    "lat": 43.839319,
+    "lon": 87.526148,
+    "description": "#83 - 2018g update - test for overlapping territories (supersedes test for #72: 2017c update - New Chinese timezone geometry)"
   }
 ]

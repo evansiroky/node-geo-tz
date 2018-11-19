@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/evansiroky/node-geo-tz#readme",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "codeclimate-send": "./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
     "prepublish": "node scripts/unzip-data.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release",
     "test": "mocha \"tests/**/*.js\"",
     "updateTzData": "node scripts/update-data.js"
   },
@@ -42,7 +42,8 @@
     "mocha": "^4.0.0",
     "nock": "^9.0.9",
     "rimraf": "^2.6.1",
-    "semantic-release": "^8.0.0",
+    "semantic-release": "^15.12.0",
+    "travis-deploy-once": "^5.0.9",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.2"
   },
