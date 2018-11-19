@@ -7,36 +7,44 @@ var issueCoords = require('./fixtures/issues.json')
 
 process.chdir('/tmp')
 
-describe('find tests', function () {
+/**
+ * Assert that a lookup includes certain timezones
+ *
+ * @param  {number} lat
+ * @param  {number} lon
+ * @param  {string | array} tzs can be a string or array of timezone names
+ */
+function assertTzResultContainsTzs (lat, lon, tzs) {
+  if (typeof tzs === 'string') {
+    tzs = [tzs]
+  }
+  const result = geoTz(lat, lon)
+  assert.isArray(result)
+  assert.sameMembers(result, tzs)
+}
 
+describe('find tests', function () {
   it('should find the timezone name for a valid coordinate', function () {
-    var tz = geoTz(47.650499, -122.350070)
-    assert.isString(tz)
-    assert.equal(tz, 'America/Los_Angeles')
+    assertTzResultContainsTzs(47.650499, -122.350070, 'America/Los_Angeles')
   })
 
   it('should find the timezone name for a valid coordinate via subfile examination', function () {
-    var tz = geoTz(1.44, 104.04)
-    assert.isString(tz)
-    assert.equal(tz, 'Asia/Singapore')
+    assertTzResultContainsTzs(1.44, 104.04, 'Asia/Singapore')
   })
 
   it('should return null timezone name for coordinate in ocean', function () {
-    var tz = geoTz(0, 0)
-    assert.equal(tz, 'Etc/GMT')
+    assertTzResultContainsTzs(0, 0, 'Etc/GMT')
   })
 
   describe('issue cases', function () {
     issueCoords.forEach(function (spot) {
       it('should find ' + spot.zid + ' (' + spot.description + ')', function () {
-        var tz = geoTz(spot.lat, spot.lon)
-        assert.isString(tz)
-        assert.equal(tz, spot.zid)
+        assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
       })
     })
   })
 
-  describe('performance aspects', function() {
+  describe('performance aspects', function () {
     this.timeout(20000)
 
     var europeTopLeft = [56.432158, -11.9263934]
@@ -46,13 +54,13 @@ describe('find tests', function () {
     it('should find timezone of ' + count + ' random european positions', function () {
       var timingStr = 'find tz of ' + count + ' random european positions'
       console.time(timingStr)
-      for(var i=0; i<count; i++) {
+      for (var i = 0; i < count; i++) {
         geoTz(
           europeTopLeft[0] + Math.random() * (europeBottomRight[0] - europeTopLeft[0]),
           europeTopLeft[1] + Math.random() * (europeBottomRight[1] - europeTopLeft[1])
         )
       }
-      console.timeEnd(timingStr);
+      console.timeEnd(timingStr)
     })
   })
 })

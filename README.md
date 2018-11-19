@@ -9,19 +9,22 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 
 ## Usage
 
+```javascript
     var geoTz = require('geo-tz')
 
-    geoTz(47.650499, -122.350070)  // 'America/Los_Angeles'
+    geoTz(47.650499, -122.350070)  // ['America/Los_Angeles']
+    geoTz(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
+```
 
 ## API Docs:
 
-As of Version 4, there is now only one API call and no dependency on moment-timezone.
+As of Version 5, the API now returns a list of possible timezones as there are certain coordinates where the timekeeping method will depend on the person you ask.
 
 ### geoTz(lat, lon)
 
-Returns the timezone name found at `lat`, `lon`.  The timezone name will be a timezone identifier as defined in the [timezone database](https://www.iana.org/time-zones).  The underlying geographic data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project.
+Returns the timezone names found at `lat`, `lon`.  The timezone names will be the timezone identifiers as defined in the [timezone database](https://www.iana.org/time-zones).  The underlying geographic data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project.
 
-This library does an exact geographic lookup which has tradeoffs.  It is perhaps a little bit slower that other libraries, has a large installation size on disk and cannot be used in the browser.  However, the results are more accurate than other libraries that compromise by approximating the lookup of the data.
+This library does an exact geographic lookup which has tradeoffs.  It is perhaps a little bit slower that other libraries, has a larger installation size on disk and cannot be used in the browser.  However, the results are more accurate than other libraries that compromise by approximating the lookup of the data.
 
 The data is indexed for fast analysis with automatic caching (with time expiration) of subregions of geographic data for when a precise lookup is needed.
 
