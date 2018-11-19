@@ -43,6 +43,7 @@
     "nock": "^9.0.9",
     "rimraf": "^2.6.1",
     "semantic-release": "^15.12.0",
+    "travis-deploy-once": "^5.0.9",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.2"
   },

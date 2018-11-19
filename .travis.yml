@@ -25,7 +25,7 @@ matrix:
 before_script:
   - npm prune
 after_success:
-  - npm run semantic-release
+  - travis-deploy-once "npm run semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
