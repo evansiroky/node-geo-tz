@@ -20,10 +20,10 @@
   },
   "main": "index.js",
   "scripts": {
-    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js --max-old-space-size=8192",
     "prepublish": "node scripts/unzip-data.js",
     "semantic-release": "semantic-release",
-    "test": "mocha \"tests/**/*.js\"",
+    "test": "mocha --max-old-space-size=8192 \"tests/**/*.js\"",
     "updateTzData": "node scripts/update-data.js"
   },
   "devDependencies": {
