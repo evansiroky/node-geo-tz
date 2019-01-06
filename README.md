@@ -33,6 +33,10 @@ The data is indexed for fast analysis with automatic caching with time expiratio
 
 Loads all geographic features into memory in an unexpiring cache.  This has tradeoffs.  More memory will be consumed and it will take a little longer before the program is ready to start looking up features, but future lookups will be a lot faster - especially for areas which haven't had a lookup in a while.
 
+## Limitations
+
+This library is not intended to be used in the browser due to the large amount of files that are included to perform exact geographic lookups.
+
 ## An Important Note About Maintenance
 
 Due to the ever-changing nature of timezone data, it is critical that you always use the latest version of this package.  If you use old versions, there will be a few edge cases where the calculated time is wrong.  If you use greenkeeper, please be sure to specify an exact target version so you will always get PR's for even patch-level releases.
