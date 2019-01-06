@@ -109,5 +109,15 @@
     "lat": 43.839319,
     "lon": 87.526148,
     "description": "#83 - 2018g update - test for overlapping territories (supersedes test for #72: 2017c update - New Chinese timezone geometry)"
+  }, {
+    "zid": "Asia/Qostanay",
+    "lat": 53.214465,
+    "lon": 63.632184,
+    "description": "#87 - 2018i - test for new zone Asia/Qostanay"
+  }, {
+    "zid": "Asia/Qyzylorda",
+    "lat": 44.843868,
+    "lon": 65.490184,
+    "description": "#87 - 2018i - test for zone Asia/Qyzylorda"
   }
 ]
