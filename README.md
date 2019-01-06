@@ -1,5 +1,5 @@
 # node-geo-tz
-[![npm version](https://badge.fury.io/js/geo-tz.svg)](http://badge.fury.io/js/geo-tz) [![Build Status](https://travis-ci.org/evansiroky/node-geo-tz.svg?branch=master)](https://travis-ci.org/evansiroky/node-geo-tz) [![Dependency Status](https://david-dm.org/evansiroky/node-geo-tz.svg)](https://david-dm.org/evansiroky/node-geo-tz) [![Test Coverage](https://codeclimate.com/github/evansiroky/node-geo-tz/badges/coverage.svg)](https://codeclimate.com/github/evansiroky/node-geo-tz/coverage)
+[![npm version](https://badge.fury.io/js/geo-tz.svg)](http://badge.fury.io/js/geo-tz) [![Build Status](https://travis-ci.org/evansiroky/node-geo-tz.svg?branch=master)](https://travis-ci.org/evansiroky/node-geo-tz) [![Dependency Status](https://david-dm.org/evansiroky/node-geo-tz.svg)](https://david-dm.org/evansiroky/node-geo-tz) [![Test Coverage](https://img.shields.io/codecov/c/github/evansiroky/node-geo-tz.svg)](https://codecov.io/github/evansiroky/node-geo-tz)
 
 The most up-to-date and accurate node.js geographical timezone lookup package.  It's fast too!
 
@@ -32,6 +32,10 @@ The data is indexed for fast analysis with automatic caching with time expiratio
 ### geoTz.preCache()
 
 Loads all geographic features into memory in an unexpiring cache.  This has tradeoffs.  More memory will be consumed and it will take a little longer before the program is ready to start looking up features, but future lookups will be a lot faster - especially for areas which haven't had a lookup in a while.
+
+## Limitations
+
+This library is not intended to be used in the browser due to the large amount of files that are included to perform exact geographic lookups.
 
 ## An Important Note About Maintenance
 

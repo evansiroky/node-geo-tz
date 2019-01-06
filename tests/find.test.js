@@ -38,7 +38,10 @@ describe('find tests', function () {
 
   describe('issue cases', function () {
     issueCoords.forEach(function (spot) {
-      it('should find ' + spot.zid + ' (' + spot.description + ')', function () {
+      const spotDescription = spot.zids
+        ? spot.zids.join(' and ')
+        : spot.zid
+      it('should find ' + spotDescription + ' (' + spot.description + ')', function () {
         assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
       })
     })

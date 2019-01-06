@@ -16,11 +16,15 @@ matrix:
   include:
     - node_js: "6"
       env: COVERAGE=true
-      script: "npm run codeclimate"
+      script:
+        - "npm run cover"
+        - bash <(curl -s https://codecov.io/bash)
   allow_failures:
     - node_js: "6"
       env: COVERAGE=true
-      script: "npm run codeclimate"
+      script:
+        - "npm run cover"
+        - bash <(curl -s https://codecov.io/bash)
 
 before_script:
   - npm prune

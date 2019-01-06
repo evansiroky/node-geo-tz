@@ -20,18 +20,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "codeclimate": "npm run cover && npm run codeclimate-send",
-    "codeclimate-send": "./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
-    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js",
+    "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js --max-old-space-size=8192",
     "prepublish": "node scripts/unzip-data.js",
     "semantic-release": "semantic-release",
-    "test": "mocha \"tests/**/*.js\"",
+    "test": "mocha --max-old-space-size=8192 \"tests/**/*.js\"",
     "updateTzData": "node scripts/update-data.js"
   },
   "devDependencies": {
     "async": "^2.1.5",
     "chai": "^4.1.2",
-    "codeclimate-test-reporter": "^0.5.0",
     "cz-conventional-changelog": "^2.0.0",
     "follow-redirects": "^1.2.1",
     "fs-extra": "^4.0.2",
