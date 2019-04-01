@@ -119,5 +119,25 @@
     "lat": 44.843868,
     "lon": 65.490184,
     "description": "#87 - 2018i - test for zone Asia/Qyzylorda"
+  }, {
+    "zid": "Asia/Ho_Chi_Minh",
+    "lat": 10.816760,
+    "lon": 106.662205,
+    "description": "#89 - 2019a - test for zone Asia/Ho_Chi_Minh"
+  }, {
+    "zid": "Asia/Bangkok",
+    "lat": 21.045801,
+    "lon": 105.781024,
+    "description": "#89 - 2019a - test for zone Asia/Bangkok in Hanoi"
+  }, {
+    "zid": "Africa/Cairo",
+    "lat": 21.886734,
+    "lon": 33.628617,
+    "description": "#89 - 2019a - test for zone Africa/Cairo in Bir Tawil"
+  }, {
+    "zid": "Africa/Khartoum",
+    "lat": 22.138993,
+    "lon": 31.416836,
+    "description": "#89 - 2019a - test for zone Asia/Khartoum in Sudanese part of Lake Nasser"
   }
 ]
