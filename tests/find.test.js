@@ -4,6 +4,8 @@ var assert = require('chai').assert
 
 var geoTz = require('../index.js')
 var issueCoords = require('./fixtures/issues.json')
+var util = require('./util')
+var _ = require('lodash')
 
 process.chdir('/tmp')
 
@@ -34,6 +36,33 @@ describe('find tests', function () {
 
   it('should return null timezone name for coordinate in ocean', function () {
     assertTzResultContainsTzs(0, 0, 'Etc/GMT')
+  })
+
+  it('should find timezones for coordinates that have LineString as features', function () {
+    assertTzResultContainsTzs(-86, 0, ['Antarctica/McMurdo', 'Antarctica/Troll'])
+  })
+
+  it('should find timezones for coordinates that have GeometryCollection as features', function () {
+    assertTzResultContainsTzs(52.031192, 178.913872, 'America/Adak')
+  })
+
+  describe('coordinates with LineStrings and GeometryCollections', function () {
+    this.timeout(20000)
+
+    it('should not throw', function () {
+      for (const spot of util.getAllCoordinatesFromLineStringsAndGeometryCollections()) {
+        var lat = _.clamp(spot[1], -90, 90)
+        var lon = _.clamp(spot[0], -180, 180)
+
+        try {
+          geoTz(lat, lon)
+        } catch (error) {
+          console.log(spot);
+          console.error(error);
+          expect(error).to.be.undefined
+        }
+      }
+    })
   })
 
   describe('issue cases', function () {
