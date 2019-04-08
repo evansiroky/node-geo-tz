@@ -32,8 +32,28 @@ describe('find tests', function () {
     assertTzResultContainsTzs(1.44, 104.04, 'Asia/Singapore')
   })
 
-  it('should return null timezone name for coordinate in ocean', function () {
+  it('should return Etc/GMT timezone for coordinate in ocean', function () {
     assertTzResultContainsTzs(0, 0, 'Etc/GMT')
+  })
+
+  it('should return both timezones on an ocean coordinate at -180 longitude', function () {
+    assertTzResultContainsTzs(40, -180, ['Etc/GMT-12', 'Etc/GMT+12'])
+  })
+
+  it('should return both timezones on an ocean coordinate at +180 longitude', function () {
+    assertTzResultContainsTzs(40, 180, ['Etc/GMT-12', 'Etc/GMT+12'])
+  })
+
+  it('should return only one timezone on an ocean coordinate at +179.9999 longitude', function () {
+    assertTzResultContainsTzs(40, 179.9999, 'Etc/GMT-12')
+  })
+
+  it('should return only one timezones on an ocean coordinate at -179.9999 longitude', function () {
+    assertTzResultContainsTzs(40, -179.9999, 'Etc/GMT+12')
+  })
+
+  it('should return both timezone for coordinate in ocean on middle of boundary', function () {
+    assertTzResultContainsTzs(40, -157.5, ['Etc/GMT+10', 'Etc/GMT+11'])
   })
 
   describe('issue cases', function () {

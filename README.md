@@ -19,7 +19,7 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 
 ## API Docs:
 
-As of Version 5, the API now returns a list of possible timezones as there are certain coordinates where the timekeeping method will depend on the person you ask.
+As of Version 5, the API now returns a list of possible timezones. There are certain coordinates where the timekeeping method will depend on the person you ask. Also, another case where 2 or more timezones could be returned is when a request is made with a coordinate that happens to be exactly on the border between two or more timezones.
 
 ### geoTz(lat, lon)
 
