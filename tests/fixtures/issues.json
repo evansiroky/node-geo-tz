@@ -139,5 +139,15 @@
     "lat": 22.138993,
     "lon": 31.416836,
     "description": "#89 - 2019a - test for zone Asia/Khartoum in Sudanese part of Lake Nasser"
+  }, {
+    "zid": "America/Adak",
+    "lat": 52.031192,
+    "lon": 178.913872,
+    "description": "#90 - some file-based data was showing up as non-polygon geojson"
+  }, {
+    "zids": ["Africa/Johannesburg", "Antarctica/McMurdo", "Antarctica/Troll"],
+    "lat": -86,
+    "lon": 0.00001,
+    "description": "#90 - timezones that share the same corner should all be found when the coordinate corner is queried"
   }
 ]
