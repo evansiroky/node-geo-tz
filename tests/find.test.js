@@ -4,6 +4,7 @@ var assert = require('chai').assert
 
 var geoTz = require('../index.js')
 var issueCoords = require('./fixtures/issues.json')
+const {oceanZones} = require('../lib/oceanUtils')
 
 process.chdir('/tmp')
 
@@ -54,6 +55,10 @@ describe('find tests', function () {
 
   it('should return both timezone for coordinate in ocean on middle of boundary', function () {
     assertTzResultContainsTzs(40, -157.5, ['Etc/GMT+10', 'Etc/GMT+11'])
+  })
+
+  it('should return all ocean timezones for coordinate at the North Pole', function () {
+    assertTzResultContainsTzs(90, 0, oceanZones.map(zone => zone.tzid))
   })
 
   describe('issue cases', function () {
