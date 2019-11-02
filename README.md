@@ -29,22 +29,25 @@ This library does an exact geographic lookup which has tradeoffs.  It is perhaps
 
 The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
-### geoTz.setCache()
+### geoTz.setCache(options || false)
 
-Changes the caching behavior. The following caching schemes are available:
+By default, geoTz uses a cache that expires after 60 seconds. This method can be used to change the caching behavior using the following options:
+
+* `expires` - time in miliseconds to expire a cached file (cannot be used together with `store`)
+* `preload` - if set to true will attempt to cache all files (requires lots of memory)
+* `store` - offload the cache to a custom storage solution (must be compatible with the Map api)
+
+Examples:
 
 ```js
-geoTz.setCache(0)  // disable caching. Files will always be loaded from disk
-geoTz.setCache(1)  // default. Files will be cached for 1 minute
-geoTz.setCache(2)  // Files will be cached for 1 hour
-geoTz.setCache(3)  // Files will be cached for 24 hours
-geoTz.setCache(4)  // Files will be cached forever
-geoTz.setCache(5)  // Files will be cached forever and all files will be preloaded (requires several hundred MB of ram)
+geoTz.setCache(false) // disable caching
+geoTz.setCache({expires:120000}) // cache expires after 2 minutes
+geoTz.setCache({expires:0}) // cache never expires
+geoTz.setCache({expires:0,preload:true}) // cache never expires and preloads all files
 
-let store = new Map()
-geoTz.setCache(store)  // Custom cache store, must be compatible with the Map api
+let map = new Map();
+geoTz.setCache({store:map}) // pass a Map-like storage object
 ```
-Higher cache level will generally consume more memory but consecutive lookups will be a lot faster. Alternatively a custom cache store can be supplied, which can be used to offload caching to a key value database like redis.
 
 ## Limitations
 
