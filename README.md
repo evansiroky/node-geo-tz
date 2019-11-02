@@ -27,7 +27,7 @@ Returns the timezone names found at `lat`, `lon`.  The timezone names will be th
 
 This library does an exact geographic lookup which has tradeoffs.  It is perhaps a little bit slower that other libraries, has a larger installation size on disk and cannot be used in the browser.  However, the results are more accurate than other libraries that compromise by approximating the lookup of the data.
 
-The data is indexed for fast analysis with automatic caching with time expiration (or optional an unexpiring cache of the whole world) of subregions of geographic data for when a precise lookup is needed.
+The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
 ### geoTz.cacheLevel()
 
