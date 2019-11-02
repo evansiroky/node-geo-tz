@@ -29,19 +29,22 @@ This library does an exact geographic lookup which has tradeoffs.  It is perhaps
 
 The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
-### geoTz.cacheLevel()
+### geoTz.setCache()
 
 Changes the caching behavior. The following caching schemes are available:
 
 ```js
-geoTz.cacheLevel(0)  // disable caching. Files will always be loaded from disk
-geoTz.cacheLevel(1)  // default. Files will be cached for 1 minute
-geoTz.cacheLevel(2)  // Files will be cached for 1 hour
-geoTz.cacheLevel(3)  // Files will be cached for 24 hours
-geoTz.cacheLevel(4)  // Files will be cached forever
-geoTz.cacheLevel(5)  // Files will be cached forever and all files will be preloaded (requires several hundred MB of ram)
+geoTz.setCache(0)  // disable caching. Files will always be loaded from disk
+geoTz.setCache(1)  // default. Files will be cached for 1 minute
+geoTz.setCache(2)  // Files will be cached for 1 hour
+geoTz.setCache(3)  // Files will be cached for 24 hours
+geoTz.setCache(4)  // Files will be cached forever
+geoTz.setCache(5)  // Files will be cached forever and all files will be preloaded (requires several hundred MB of ram)
+
+let store = new Map()
+geoTz.setCache(store)  // Custom cache store, must be compatible with the Map api
 ```
-Higher cache level will generally consume more memory but repeated lookups will be a lot faster.
+Higher cache level will generally consume more memory but consecutive lookups will be a lot faster. Alternatively a custom cache store can be supplied, which can be used to offload caching to a key value database like redis.
 
 ## Limitations
 
