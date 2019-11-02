@@ -12,7 +12,7 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 ```javascript
     var geoTz = require('geo-tz')
 
-    geoTz.preCache()  // optionally load all features into memory
+    geoTz.cacheLevel(5)  // optionally change cache level, defaults to 1
     geoTz(47.650499, -122.350070)  // ['America/Los_Angeles']
     geoTz(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
 ```
@@ -29,9 +29,19 @@ This library does an exact geographic lookup which has tradeoffs.  It is perhaps
 
 The data is indexed for fast analysis with automatic caching with time expiration (or optional an unexpiring cache of the whole world) of subregions of geographic data for when a precise lookup is needed.
 
-### geoTz.preCache()
+### geoTz.cacheLevel()
 
-Loads all geographic features into memory in an unexpiring cache.  This has tradeoffs.  More memory will be consumed and it will take a little longer before the program is ready to start looking up features, but future lookups will be a lot faster - especially for areas which haven't had a lookup in a while.
+Changes the caching behavior. The following caching schemes are available:
+
+```js
+geoTz.cacheLevel(0)  // disable caching. Files will always be loaded from disk
+geoTz.cacheLevel(1)  // default. Files will be cached for 1 minute
+geoTz.cacheLevel(2)  // Files will be cached for 1 hour
+geoTz.cacheLevel(3)  // Files will be cached for 24 hours
+geoTz.cacheLevel(4)  // Files will be cached forever
+geoTz.cacheLevel(5)  // Files will be cached forever and all files will be preloaded (requires several hundred MB of ram)
+```
+Higher cache level will generally consume more memory but repeated lookups will be a lot faster.
 
 ## Limitations
 
