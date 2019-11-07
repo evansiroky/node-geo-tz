@@ -9,10 +9,9 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 
 ## Usage
 
-```javascript
-    var geoTz = require('geo-tz')
+```js
+    const geoTz = require('geo-tz')
 
-    geoTz.cacheLevel(5)  // optionally change cache level, defaults to 1
     geoTz(47.650499, -122.350070)  // ['America/Los_Angeles']
     geoTz(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
 ```
@@ -34,7 +33,7 @@ The data is indexed for fast analysis by caching subregions of geographic data w
 By default, geoTz uses a cache that expires after 60 seconds. This method can be used to change the caching behavior using the following options:
 
 * `expires` - time in miliseconds to expire a cached file (cannot be used together with `store`)
-* `preload` - if set to true will attempt to cache all files (requires lots of memory)
+* `preload` - if set to true will attempt to cache all files (slow startup time and requires lots of memory)
 * `store` - offload the cache to a custom storage solution (must be compatible with the Map api)
 
 Examples:
