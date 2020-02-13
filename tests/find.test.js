@@ -46,15 +46,15 @@ describe('find tests', function () {
   })
 
   it('should return only one timezone on an ocean coordinate at +179.9999 longitude', function () {
-    assertTzResultContainsTzs(40, 179.9999, 'Etc/GMT-12')
+    assertTzResultContainsTzs(40, 179.9999, 'Etc/GMT+12')
   })
 
   it('should return only one timezones on an ocean coordinate at -179.9999 longitude', function () {
-    assertTzResultContainsTzs(40, -179.9999, 'Etc/GMT+12')
+    assertTzResultContainsTzs(40, -179.9999, 'Etc/GMT-12')
   })
 
   it('should return both timezone for coordinate in ocean on middle of boundary', function () {
-    assertTzResultContainsTzs(40, -157.5, ['Etc/GMT+10', 'Etc/GMT+11'])
+    assertTzResultContainsTzs(40, -157.5, ['Etc/GMT-10', 'Etc/GMT-11'])
   })
 
   it('should return all ocean timezones for coordinate at the North Pole', function () {
