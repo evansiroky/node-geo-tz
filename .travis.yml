@@ -5,10 +5,7 @@ node_js:
   - "12"
   - "11"
   - "10"
-  - "9"
   - "8"
-  - "7"
-  - "6"
 
 env:
   - COVERAGE=false
@@ -16,13 +13,13 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "6"
+    - node_js: "10"
       env: COVERAGE=true
       script:
         - "npm run cover"
         - bash <(curl -s https://codecov.io/bash)
   allow_failures:
-    - node_js: "6"
+    - node_js: "10"
       env: COVERAGE=true
       script:
         - "npm run cover"
