@@ -27,19 +27,16 @@
     "updateTzData": "node scripts/update-data.js"
   },
   "devDependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.0",
     "chai": "^4.2.0",
-    "cz-conventional-changelog": "^2.0.0",
-    "follow-redirects": "^1.7.0",
-    "fs-extra": "^8.1.0",
+    "follow-redirects": "^1.11.0",
+    "fs-extra": "^9.0.0",
     "istanbul": "^0.4.2",
-    "jsts": "^2.0.4",
-    "lodash": "^4.17.11",
-    "mkdirp": "^0.5.1",
-    "mocha": "^6.1.4",
-    "nock": "^10.0.6",
-    "rimraf": "^2.6.3",
-    "semantic-release": "^15.13.18",
+    "jsts": "^2.1.2",
+    "lodash": "^4.17.15",
+    "mocha": "^7.1.2",
+    "nock": "^12.0.3",
+    "semantic-release": "^17.0.7",
     "travis-deploy-once": "^5.0.11",
     "yauzl": "^2.10.0",
     "yazl": "^2.5.1"
@@ -48,12 +45,6 @@
     "@turf/boolean-point-in-polygon": "^6.0.1",
     "@turf/helpers": "^6.1.4",
     "geobuf": "^3.0.1",
-    "pbf": "^3.2.0",
-    "timed-cache": "^1.1.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+    "pbf": "^3.2.1"
   }
 }
