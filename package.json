@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/evansiroky/node-geo-tz#readme",
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   },
   "main": "index.js",
   "scripts": {
