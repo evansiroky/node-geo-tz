@@ -28,24 +28,20 @@ This library does an exact geographic lookup which has tradeoffs.  It is perhaps
 
 The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
-### geoTz.setCache(options || false)
+### geoTz.setCache(options)
 
-By default, geoTz uses a cache that expires after 60 seconds. This method can be used to change the caching behavior using the following options:
+By default, geoTz lazy-loads exact lookup data into an unexpiring cache. The `setCache` method can be used to change the caching behavior using the following options:
 
-* `expires` - time in miliseconds to expire a cached file (cannot be used together with `store`)
 * `preload` - if set to true will attempt to cache all files (slow startup time and requires lots of memory)
 * `store` - offload the cache to a custom storage solution (must be compatible with the Map api)
 
 Examples:
 
 ```js
-geoTz.setCache(false) // disable caching
-geoTz.setCache({expires:120000}) // cache expires after 2 minutes
-geoTz.setCache({expires:0}) // cache never expires
-geoTz.setCache({expires:0,preload:true}) // cache never expires and preloads all files
+geoTz.setCache({ preload: true }) // preloads all files
 
 let map = new Map();
-geoTz.setCache({store:map}) // pass a Map-like storage object
+geoTz.setCache({ store: map }) // pass a Map-like storage object
 ```
 
 ## Limitations
