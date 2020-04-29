@@ -145,9 +145,79 @@
     "lon": 178.913872,
     "description": "#90 - some file-based data was showing up as non-polygon geojson"
   }, {
-    "zids": ["Africa/Johannesburg", "Antarctica/McMurdo", "Antarctica/Troll"],
+    "zids": ["Africa/Johannesburg", "Antarctica/McMurdo", "Etc/UTC"],
     "lat": -86,
-    "lon": 0.00001,
+    "lon": -5.5,
     "description": "#90 - timezones that share the same corner should all be found when the coordinate corner is queried"
+  }, {
+    "zid": "America/Dawson",
+    "lat": 62.385902,
+    "lon": -140.874458,
+    "description": "#106 - 2020a - test for expanded America/Dawson timezone"
+  }, {
+    "zid": "America/Whitehorse",
+    "lat": 60.878846,
+    "lon": -135.358830,
+    "description": "#106 - 2020a - test for America/Whitehorse timezone"
+  }, {
+    "zid": "America/Inuvik",
+    "lat": 64.900980,
+    "lon": -125.572725,
+    "description": "#106 - 2020a - test for expanded America/Inuvik timezone"
+  }, {
+    "zid": "America/Yellowknife",
+    "lat": 61.164993,
+    "lon": -113.675715,
+    "description": "#106 - 2020a - test for America/Yellowknife timezone"
+  }, {
+    "zid": "America/Edmonton",
+    "lat": 53.277915,
+    "lon": -109.979085,
+    "description": "#106 - 2020a - test for America/Edmonton timezone"
+  }, {
+    "zid": "America/Swift_Current",
+    "lat": 50.095492,
+    "lon": -108.484775,
+    "description": "#106 - 2020a - test for America/Swift_Current timezone"
+  }, {
+    "zid": "America/Regina",
+    "lat": 50.926609,
+    "lon": -102.807149,
+    "description": "#106 - 2020a - test for America/Regina timezone"
+  }, {
+    "zid": "America/Winnipeg",
+    "lat": 50.500379,
+    "lon": -96.966971,
+    "description": "#106 - 2020a - test for America/Winnipeg timezone"
+  }, {
+    "zid": "America/Atikokan",
+    "lat": 48.757505,
+    "lon": -91.621826,
+    "description": "#106 - 2020a - test for America/Atikokan timezone"
+  }, {
+    "zid": "America/Rainy_River",
+    "lat": 51.024131,
+    "lon": -93.820274,
+    "description": "#106 - 2020a - test for America/Rainy_River timezone"
+  }, {
+    "zid": "America/Nipigon",
+    "lat": 49.688972,
+    "lon": -83.665001,
+    "description": "#106 - 2020a - test for America/Nipigon timezone"
+  }, {
+    "zid": "America/Halifax",
+    "lat": 48.011834,
+    "lon": -66.702759,
+    "description": "#106 - 2020a - test for America/Halifax timezone at Listuguj"
+  }, {
+    "zid": "America/Nuuk",
+    "lat": 64.174815,
+    "lon": -51.738551,
+    "description": "#106 - 2020a - test for America/Nuuk timezone"
+  }, {
+    "zid": ["Asia/Tbilisi", "Europe/Moscow"],
+    "lat": 43.000384,
+    "lon": 41.021173,
+    "description": "#106 - 2020a - test for overlapping zones in Abkhazia area"
   }
 ]
