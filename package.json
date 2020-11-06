@@ -29,14 +29,14 @@
   "devDependencies": {
     "async": "^3.2.0",
     "chai": "^4.2.0",
-    "follow-redirects": "^1.11.0",
-    "fs-extra": "^9.0.0",
-    "istanbul": "^0.4.2",
-    "jsts": "^2.1.2",
-    "lodash": "^4.17.15",
-    "mocha": "^7.1.2",
-    "nock": "^12.0.3",
-    "semantic-release": "^17.0.7",
+    "follow-redirects": "^1.13.0",
+    "fs-extra": "^9.0.1",
+    "istanbul": "^0.4.5",
+    "jsts": "^2.6.1",
+    "lodash": "^4.17.20",
+    "mocha": "^8.2.1",
+    "nock": "^13.0.4",
+    "semantic-release": "^17.2.2",
     "travis-deploy-once": "^5.0.11",
     "yauzl": "^2.10.0",
     "yazl": "^2.5.1"
@@ -44,7 +44,7 @@
   "dependencies": {
     "@turf/boolean-point-in-polygon": "^6.0.1",
     "@turf/helpers": "^6.1.4",
-    "geobuf": "^3.0.1",
+    "geobuf": "^3.0.2",
     "pbf": "^3.2.1"
   }
 }
