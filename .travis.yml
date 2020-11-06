@@ -19,6 +19,8 @@ matrix:
       script:
         - "npm run cover"
         - bash <(curl -s https://codecov.io/bash)
+    - stage: deploy
+      script: npm run semantic-release
   allow_failures:
     - node_js: "10"
       env: COVERAGE=true
@@ -28,8 +30,6 @@ matrix:
 
 before_script:
   - npm prune
-after_success:
-  - travis-deploy-once "npm run semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
