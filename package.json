@@ -21,7 +21,6 @@
   "main": "index.js",
   "scripts": {
     "cover": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests/**/*.js --max-old-space-size=8192",
-    "prepublish": "node scripts/unzip-data.js",
     "semantic-release": "semantic-release",
     "test": "mocha --max-old-space-size=8192 \"tests/**/*.js\"",
     "updateTzData": "node scripts/update-data.js"
@@ -37,8 +36,7 @@
     "mocha": "^8.2.1",
     "nock": "^13.0.4",
     "semantic-release": "^17.2.2",
-    "yauzl": "^2.10.0",
-    "yazl": "^2.5.1"
+    "yauzl": "^2.10.0"
   },
   "dependencies": {
     "@turf/boolean-point-in-polygon": "^6.0.1",
