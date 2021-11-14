@@ -13,6 +13,15 @@ var TEST_DATA_DIR = __dirname + '/../data-test-geoindex'
 var testTzData = require('./fixtures/largeTz.json')
 var expectedIndexData = require('./fixtures/expectedIndexData.json')
 
+/**
+ * Synchronously extracts data from the given subzoneFile and verifies that it
+ * matches the passed expectedData.
+ */
+function assertSubzoneDataIsEqual (subzoneFile, expectedData) {
+  const data = new Pbf(fs.readFileSync(subzoneFile))
+  assert.deepEqual(geobuf.decode(data), expectedData)
+}
+
 describe('geoindex', function () {
   beforeEach(function (done) {
     util.createDataDir(TEST_DATA_DIR, done)
@@ -34,16 +43,17 @@ describe('geoindex', function () {
 
         assert.deepEqual(generatedIndex, expectedIndexData)
 
-        // also make sure certain subzone is written
-        fs.stat(TEST_DATA_DIR + '/b/b/d/c/d/d/geo.buf',
-          function (err, stats) {
-            assert.isNotOk(err)
-            var data = new Pbf(fs.readFileSync(TEST_DATA_DIR + '/b/b/d/c/d/d/geo.buf'))
-
-            assert.deepEqual(geobuf.decode(data), require('./fixtures/expectedSubzone.json'))
-            done()
-          }
+        // also make sure certain subzone data is written
+        assertSubzoneDataIsEqual(
+          TEST_DATA_DIR + '/b/b/d/c/d/d/geo.buf',
+          require('./fixtures/expectedSubzone1.json')
         )
+        assertSubzoneDataIsEqual(
+          TEST_DATA_DIR + '/b/c/a/a/a/d/geo.buf',
+          require('./fixtures/expectedSubzone2.json')
+        )
+
+        done()
       }
     )
   })
