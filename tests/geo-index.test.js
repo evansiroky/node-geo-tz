@@ -10,8 +10,28 @@ var util = require('./util.js')
 var createGeoIndex = require('../lib/geo-index')
 
 var TEST_DATA_DIR = __dirname + '/../data-test-geoindex'
+var TEST_GEO_DAT = `${TEST_DATA_DIR}/geo.dat`
+var TEST_INDEX_FILE = `${TEST_DATA_DIR}/index.json`
 var testTzData = require('./fixtures/largeTz.json')
 var expectedIndexData = require('./fixtures/expectedIndexData.json')
+
+/**
+ * Synchronously extracts data from the given subzoneFile and verifies that it
+ * matches the passed expectedData.
+ *
+ * @param {number} pos
+ * @param {number} len
+ * @param {object} expectedData
+ * @returns {void}
+ */
+function assertSubzoneDataIsEqual (pos, len, expectedData) {
+  const fd = fs.openSync(TEST_GEO_DAT, 'r')
+  const buf = Buffer.alloc(len)
+  fs.readSync(fd, buf, 0, len, pos)
+  fs.closeSync(fd)
+  const data = new Pbf(buf)
+  assert.deepEqual(geobuf.decode(data), expectedData)
+}
 
 describe('geoindex', function () {
   beforeEach(function (done) {
@@ -30,20 +50,26 @@ describe('geoindex', function () {
       function (err) {
         assert.isNotOk(err)
 
-        var generatedIndex = require(TEST_DATA_DIR + '/index.json')
+        var generatedIndex = require(TEST_INDEX_FILE)
 
         assert.deepEqual(generatedIndex, expectedIndexData)
 
-        // also make sure certain subzone is written
-        fs.stat(TEST_DATA_DIR + '/b/b/d/c/d/d/geo.buf',
-          function (err, stats) {
-            assert.isNotOk(err)
-            var data = new Pbf(fs.readFileSync(TEST_DATA_DIR + '/b/b/d/c/d/d/geo.buf'))
+        const zone1 = generatedIndex.lookup['b']['b']['d']['c']['d']['d']
 
-            assert.deepEqual(geobuf.decode(data), require('./fixtures/expectedSubzone.json'))
-            done()
-          }
+        // also make sure certain subzone data is written
+        assertSubzoneDataIsEqual(
+          zone1.pos, zone1.len,
+          require('./fixtures/expectedSubzone1.json')
         )
+
+        const zone2 = generatedIndex.lookup['b']['c']['a']['a']['a']['d']
+
+        assertSubzoneDataIsEqual(
+          zone2.pos, zone2.len,
+          require('./fixtures/expectedSubzone2.json')
+        )
+
+        done()
       }
     )
   })

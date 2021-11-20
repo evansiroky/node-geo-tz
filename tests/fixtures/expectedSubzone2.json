@@ -1,0 +1,1 @@
+{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-90.527344,42.187453],[-90.527344,39.374956],[-95.624947,39.374956],[-95.624947,42.187453],[-90.527344,42.187453]]]},"properties":{"tzid":"test_tz"}}]}
