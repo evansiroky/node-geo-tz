@@ -2,11 +2,11 @@ sudo: false
 language: node_js
 
 node_js:
+  - "18"
+  - "17"
+  - "16"
   - "14"
-  - "13"
   - "12"
-  - "11"
-  - "10"
 
 env:
   - COVERAGE=false
@@ -14,7 +14,7 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "10"
+    - node_js: "12"
       env: COVERAGE=true
       script:
         - "npm run cover"
@@ -22,7 +22,7 @@ matrix:
     - stage: deploy
       script: npm run semantic-release
   allow_failures:
-    - node_js: "10"
+    - node_js: "12"
       env: COVERAGE=true
       script:
         - "npm run cover"
