@@ -1,6 +1,6 @@
 /* globals afterEach, beforeEach, describe, it */
 
-var fs = require('fs-extra')
+var fs = require('fs')
 
 var assert = require('chai').assert
 var nock = require('nock')
@@ -55,6 +55,7 @@ describe('data update', function () {
       dataDir: TEST_DATA_DIR
     },
     function (err) {
+      console.log(err)
       try {
         assert.isNotOk(err)
       } catch (e) {

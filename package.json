@@ -29,7 +29,6 @@
     "async": "^3.2.0",
     "chai": "^4.3.4",
     "follow-redirects": "^1.13.0",
-    "fs-extra": "^9.0.1",
     "jsts": "^2.6.1",
     "lodash": "^4.17.20",
     "mocha": "^9.1.3",

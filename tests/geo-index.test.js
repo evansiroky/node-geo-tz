@@ -1,7 +1,8 @@
 /* globals afterEach, beforeEach, describe, it */
 
+var fs = require('fs')
+
 var assert = require('chai').assert
-var fs = require('fs-extra')
 var geobuf = require('geobuf')
 var Pbf = require('pbf')
 

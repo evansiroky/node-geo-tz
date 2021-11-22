@@ -1,5 +1,6 @@
+var fs = require('fs')
+
 var async = require('async')
-var fs = require('fs-extra')
 
 var util = {}
 
@@ -9,13 +10,17 @@ util.createDataDir = function (dir, callback) {
       util.destroyDataDir(dir, cb)
     },
     createNewDataDir: ['destroyDataDir', function (results, cb) {
-      fs.ensureDir(dir, cb)
+      fs.mkdir(dir, { recursive: true }, cb)
     }]
   }, callback)
 }
 
 util.destroyDataDir = function (dir, callback) {
-  async.each([dir, dir + '.zip'], fs.remove, callback)
+  async.each(
+    [dir, dir + '.zip'], 
+    (dir, cb) => fs.rm(dir, { force: true, recursive: true }, cb), 
+    callback
+  )
 }
 
 module.exports = util
