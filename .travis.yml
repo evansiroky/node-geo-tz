@@ -28,6 +28,12 @@ matrix:
       script:
         - "npm run cover"
         - bash <(curl -s https://codecov.io/bash)
+    - node_js: "12"
+      env: COVERAGE=false
+      script:
+        - npm run lint
+        - npm t
+        - npm run build
 
 script:
   - npm run lint
