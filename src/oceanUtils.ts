@@ -1,4 +1,10 @@
-const oceanZones = [
+type OceanZone = {
+  left: number
+  right: number
+  tzid: string
+}
+
+export const oceanZones: OceanZone[] = [
   { tzid: 'Etc/GMT-12', left: 172.5, right: 180 },
   { tzid: 'Etc/GMT-11', left: 157.5, right: 172.5 },
   { tzid: 'Etc/GMT-10', left: 142.5, right: 157.5 },
@@ -23,17 +29,23 @@ const oceanZones = [
   { tzid: 'Etc/GMT+9', left: -142.5, right: -127.5 },
   { tzid: 'Etc/GMT+10', left: -157.5, right: -142.5 },
   { tzid: 'Etc/GMT+11', left: -172.5, right: -157.5 },
-  { tzid: 'Etc/GMT+12', left: -180, right: -172.5 }
+  { tzid: 'Etc/GMT+12', left: -180, right: -172.5 },
 ]
 
-function getTimezoneAtSea (lon) {
+/**
+ * Find the Etc/GMT* timezone name(s) corresponding to the given longitue.
+ *
+ * @param lon The longitude to analyze
+ * @returns An array of strings of TZIDs
+ */
+export function getTimezoneAtSea(lon: number): string[] {
   // coordinates along the 180 longitude should return two zones
   if (lon === -180 || lon === 180) {
     return ['Etc/GMT+12', 'Etc/GMT-12']
   }
   const tzs = []
-  for (var i = 0; i < oceanZones.length; i++) {
-    var z = oceanZones[i]
+  for (let i = 0; i < oceanZones.length; i++) {
+    const z = oceanZones[i]
     if (z.left <= lon && z.right >= lon) {
       tzs.push(z.tzid)
     } else if (z.right < lon) {
@@ -42,6 +54,3 @@ function getTimezoneAtSea (lon) {
   }
   return tzs
 }
-
-module.exports.oceanZones = oceanZones
-module.exports.getTimezoneAtSea = getTimezoneAtSea

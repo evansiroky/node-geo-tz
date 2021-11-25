@@ -1,10 +1,11 @@
 /* globals describe, it */
 
-var assert = require('chai').assert
+import { assert } from 'chai'
 
-var geoTz = require('../index.js')
-var issueCoords = require('./fixtures/issues.json')
-const {oceanZones} = require('../lib/oceanUtils')
+import geoTz, { preCache } from '../src/find'
+import { oceanZones } from '../src/oceanUtils'
+
+const issueCoords = require('./fixtures/issues.json')
 
 process.chdir('/tmp')
 
@@ -15,7 +16,7 @@ process.chdir('/tmp')
  * @param  {number} lon
  * @param  {string | array} tzs can be a string or array of timezone names
  */
-function assertTzResultContainsTzs (lat, lon, tzs) {
+function assertTzResultContainsTzs(lat, lon, tzs) {
   if (typeof tzs === 'string') {
     tzs = [tzs]
   }
@@ -26,7 +27,7 @@ function assertTzResultContainsTzs (lat, lon, tzs) {
 
 describe('find tests', function () {
   it('should find the timezone name for a valid coordinate', function () {
-    assertTzResultContainsTzs(47.650499, -122.350070, 'America/Los_Angeles')
+    assertTzResultContainsTzs(47.650499, -122.35007, 'America/Los_Angeles')
   })
 
   it('should find the timezone name for a valid coordinate via subfile examination', function () {
@@ -58,48 +59,59 @@ describe('find tests', function () {
   })
 
   it('should return all ocean timezones for coordinate at the North Pole', function () {
-    assertTzResultContainsTzs(90, 0, oceanZones.map(zone => zone.tzid))
+    assertTzResultContainsTzs(
+      90,
+      0,
+      oceanZones.map((zone) => zone.tzid)
+    )
   })
 
   describe('issue cases', function () {
     issueCoords.forEach(function (spot) {
-      const spotDescription = spot.zids
-        ? spot.zids.join(' and ')
-        : spot.zid
-      it('should find ' + spotDescription + ' (' + spot.description + ')', function () {
-        assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
-      })
+      const spotDescription = spot.zids ? spot.zids.join(' and ') : spot.zid
+      it(
+        'should find ' + spotDescription + ' (' + spot.description + ')',
+        function () {
+          assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
+        }
+      )
     })
   })
 
   describe('performance aspects', function () {
     this.timeout(20000)
 
-    var europeTopLeft = [56.432158, -11.9263934]
-    var europeBottomRight = [39.8602076, 34.9127951]
-    var count = 2000
+    const europeTopLeft = [56.432158, -11.9263934]
+    const europeBottomRight = [39.8602076, 34.9127951]
+    const count = 2000
 
-    var findRandomPositions = function () {
-      var timingStr = 'find tz of ' + count + ' random european positions'
+    const findRandomPositions = function () {
+      const timingStr = 'find tz of ' + count + ' random european positions'
       console.time(timingStr)
-      for (var i = 0; i < count; i++) {
+      for (let i = 0; i < count; i++) {
         geoTz(
-          europeTopLeft[0] + Math.random() * (europeBottomRight[0] - europeTopLeft[0]),
-          europeTopLeft[1] + Math.random() * (europeBottomRight[1] - europeTopLeft[1])
+          europeTopLeft[0] +
+            Math.random() * (europeBottomRight[0] - europeTopLeft[0]),
+          europeTopLeft[1] +
+            Math.random() * (europeBottomRight[1] - europeTopLeft[1])
         )
       }
       console.timeEnd(timingStr)
     }
 
     it(
-      'should find timezone of ' + count + ' random european positions with on-demand caching',
+      'should find timezone of ' +
+        count +
+        ' random european positions with on-demand caching',
       findRandomPositions
     )
 
     it(
-      'should find timezone of ' + count + ' random european positions with precache',
+      'should find timezone of ' +
+        count +
+        ' random european positions with precache',
       function () {
-        geoTz.preCache()
+        preCache()
         findRandomPositions()
       }
     )

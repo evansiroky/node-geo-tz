@@ -2,11 +2,10 @@ sudo: false
 language: node_js
 
 node_js:
+  - "17"
+  - "16"
   - "14"
-  - "13"
   - "12"
-  - "11"
-  - "10"
 
 env:
   - COVERAGE=false
@@ -14,22 +13,32 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "10"
+    - node_js: "14"
       env: COVERAGE=true
       script:
         - "npm run cover"
         - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
-      script: npm run semantic-release
+      script: 
+        - npm run build
+        - npm run semantic-release
   allow_failures:
-    - node_js: "10"
+    - node_js: "14"
       env: COVERAGE=true
       script:
         - "npm run cover"
         - bash <(curl -s https://codecov.io/bash)
+    - node_js: "12"
+      env: COVERAGE=false
+      script:
+        - npm run lint
+        - npm t
+        - npm run build
 
-before_script:
-  - npm prune
+script:
+  - npm run lint
+  - npm t
+  - npm run build
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
