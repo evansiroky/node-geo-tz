@@ -1,25 +1,41 @@
-var fs = require('fs')
-var path = require('path')
+import * as fs from 'fs'
+import * as path from 'path'
 
-var geobuf = require('geobuf')
-var inside = require('@turf/boolean-point-in-polygon').default
-var Pbf = require('pbf')
-var point = require('@turf/helpers').point
+import { decode } from 'geobuf'
+import inside from '@turf/boolean-point-in-polygon'
+import { point } from '@turf/helpers'
+import Pbf from 'pbf'
 
-var tzData = require('../data/index.json')
-const {getTimezoneAtSea, oceanZones} = require('./oceanUtils')
+import { getTimezoneAtSea, oceanZones } from './oceanUtils'
 
-const FEATURE_FILE_PATH = `${__dirname}/../data/geo.dat`
+const tzData = require('../data/index.json')
+
+const FEATURE_FILE_PATH = path.join(__dirname, '..', 'data', 'geo.dat')
 let featureCache
+
+type CacheOptions = {
+  /**
+   * If set to true, all features will be loaded into memory to shorten future lookup
+   * times.
+   */
+  preload?: boolean
+  /**
+   * Must be a map-like object with a `get` and `set` function.
+   */
+  store?: any
+}
 
 /**
  * Set caching behavior.
+ *
+ * @param {CacheOptions} options cachine options.
  */
-function cacheLevel (options) {
+function cacheLevel(options?: CacheOptions) {
   if (
-    options && options.store &&
-      typeof options.store.get === 'function' &&
-      typeof options.store.set === 'function'
+    options &&
+    options.store &&
+    typeof options.store.get === 'function' &&
+    typeof options.store.set === 'function'
   ) {
     featureCache = options.store
   } else {
@@ -32,7 +48,7 @@ function cacheLevel (options) {
       throw new Error('Failed to open geo.dat file')
     }
 
-    preCache(featureFileFd)
+    _preCache(featureFileFd)
 
     fs.closeSync(featureFileFd)
   }
@@ -46,11 +62,16 @@ cacheLevel()
  * @param {number} featureFileFd
  * @returns {void}
  */
-function preCache (featureFileFd) {
+function _preCache(featureFileFd: number) {
   // shoutout to github user @magwo for an initial version of this recursive function
-  var preloadFeaturesRecursive = function (curTzData, quadPos) {
+  function preloadFeaturesRecursive(curTzData, quadPos: string) {
     if (curTzData.pos >= 0 && curTzData.len) {
-      var geoJson = loadFeatures(quadPos, curTzData.pos, curTzData.len, featureFileFd)
+      const geoJson = loadFeatures(
+        quadPos,
+        curTzData.pos,
+        curTzData.len,
+        featureFileFd
+      )
       featureCache.set(quadPos, geoJson)
     } else if (typeof curTzData === 'object') {
       Object.getOwnPropertyNames(curTzData).forEach(function (value) {
@@ -65,13 +86,20 @@ function preCache (featureFileFd) {
  * Load features from geo.dat at offset pos with length len.
  * Optionally accept a file descriptor
  *
- * @param {number} pos
- * @param {number} len
- * @param {number} [fd=-1]
- * @returns {object}
+ * @param quadPos
+ * @param pos
+ * @param len
+ * @param fd
+ * @returns the GeoJSON features in within the given quad region as defined in the
+ *  feature file data.
  */
-var loadFeatures = function (quadPos, pos, len, fd = -1) {
-  var featureFileFd = fd
+function loadFeatures(
+  quadPos: string,
+  pos: number,
+  len: number,
+  fd: number = -1
+) {
+  let featureFileFd = fd
   if (featureFileFd < 0) {
     featureFileFd = fs.openSync(FEATURE_FILE_PATH, 'r')
     if (featureFileFd < 0) {
@@ -82,7 +110,7 @@ var loadFeatures = function (quadPos, pos, len, fd = -1) {
   // exact boundaries saved in file
   // parse geojson for exact boundaries
   const buf = Buffer.alloc(len)
-  const bytesRead = fs.readSync(featureFileFd, buf, 0, len, pos);
+  const bytesRead = fs.readSync(featureFileFd, buf, 0, len, pos)
 
   // close featureFileFd if we opened it
   if (fd < 0) {
@@ -90,19 +118,26 @@ var loadFeatures = function (quadPos, pos, len, fd = -1) {
   }
 
   if (bytesRead < len) {
-    throw new Error(`tried to read ${len} bytes from geo.dat but only got ${bytesRead} bytes`);
+    throw new Error(
+      `tried to read ${len} bytes from geo.dat but only got ${bytesRead} bytes`
+    )
   }
 
   const data = new Pbf(buf)
-  var geoJson = geobuf.decode(data)
-  return geoJson
+  return decode(data)
 }
 
-var getTimezone = function (originalLat, originalLon) {
-  let lat = parseFloat(originalLat)
-  let lon = parseFloat(originalLon)
+/**
+ * Find the timezone ID(s) at the given GPS coordinates.
+ *
+ * @param lat latitude (must be >= -90 and <=90)
+ * @param lon longitue (must be >= -180 and <=180)
+ * @returns An array of string of TZIDs at the given coordinate.
+ */
+export default function getTimezone(lat: number, lon: number): string[] {
+  const originalLon = lon
 
-  var err
+  let err
 
   // validate latitude
   if (isNaN(lat) || lat > 90 || lat < -90) {
@@ -118,7 +153,7 @@ var getTimezone = function (originalLat, originalLon) {
 
   // North Pole should return all ocean zones
   if (lat === 90) {
-    return oceanZones.map(zone => zone.tzid)
+    return oceanZones.map((zone) => zone.tzid)
   }
 
   // fix edges of the world
@@ -134,21 +169,21 @@ var getTimezone = function (originalLat, originalLon) {
     lon = -179.9999
   }
 
-  var pt = point([lon, lat])
-  var quadData = {
+  const pt = point([lon, lat])
+  const quadData = {
     top: 89.9999,
     bottom: -89.9999,
     left: -179.9999,
     right: 179.9999,
     midLat: 0,
-    midLon: 0
+    midLon: 0,
   }
-  var quadPos = ''
-  var curTzData = tzData.lookup
+  let quadPos = ''
+  let curTzData = tzData.lookup
 
   while (true) {
     // calculate next quadtree position
-    var nextQuad
+    let nextQuad
     if (lat >= quadData.midLat && lon >= quadData.midLon) {
       nextQuad = 'a'
       quadData.bottom = quadData.midLat
@@ -178,15 +213,15 @@ var getTimezone = function (originalLat, originalLon) {
       return getTimezoneAtSea(originalLon)
     } else if (curTzData.pos >= 0 && curTzData.len) {
       // get exact boundaries
-      var geoJson = featureCache.get(quadPos)
+      let geoJson = featureCache.get(quadPos)
       if (!geoJson) {
         geoJson = loadFeatures(quadPos, curTzData.pos, curTzData.len)
         featureCache.set(quadPos, geoJson)
       }
 
-      var timezonesContainingPoint = []
+      const timezonesContainingPoint = []
 
-      for (var i = 0; i < geoJson.features.length; i++) {
+      for (let i = 0; i < geoJson.features.length; i++) {
         if (inside(pt, geoJson.features[i])) {
           timezonesContainingPoint.push(geoJson.features[i].properties.tzid)
         }
@@ -199,7 +234,7 @@ var getTimezone = function (originalLat, originalLon) {
         : getTimezoneAtSea(originalLon)
     } else if (curTzData.length > 0) {
       // exact match found
-      return curTzData.map(idx => tzData.timezones[idx])
+      return curTzData.map((idx) => tzData.timezones[idx])
     } else if (typeof curTzData !== 'object') {
       // not another nested quad index, throw error
       err = new Error('Unexpected data type')
@@ -212,10 +247,11 @@ var getTimezone = function (originalLat, originalLon) {
   }
 }
 
-module.exports = getTimezone
-module.exports.setCache = cacheLevel
+export { cacheLevel as setCache }
 
-// for backwards compatibility
-module.exports.preCache = function () {
+/**
+ * Load all features into memory to speed up future lookups.
+ */
+export function preCache() {
   cacheLevel({ preload: true })
 }

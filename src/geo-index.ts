@@ -1,32 +1,29 @@
-const fs = require('fs')
+import * as fs from 'fs'
 
-var helpers = require('@turf/helpers')
-var async = require('async')
-var geobuf = require('geobuf')
-var jsts = require('jsts')
-var _ = require('lodash')
-var Pbf = require('pbf')
+import { featureCollection, polygon } from '@turf/helpers'
+import geobuf from 'geobuf'
+import * as jsts from 'jsts'
+import _ from 'lodash'
+import Pbf from 'pbf'
 
-var featureCollection = helpers.featureCollection
-var polygon = helpers.polygon
-var geoJsonReader = new jsts.io.GeoJSONReader()
-var geoJsonWriter = new jsts.io.GeoJSONWriter()
+const geoJsonReader = new jsts.io.GeoJSONReader()
+const geoJsonWriter = new jsts.io.GeoJSONWriter()
 
-module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
+export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
   console.log('indexing')
 
-  var data = {
+  const data = {
     timezones: [],
-    lookup: {}
+    lookup: {},
   }
 
   /**
    * iterate through geometry coordinates and change any coordinates along
    * longitude 0 to longitude 0.00001
    */
-  function hackLongitude0Polygon (polygon) {
-    polygon.forEach(linearRing => {
-      linearRing.forEach(ringCoords => {
+  function hackLongitude0Polygon(polygon) {
+    polygon.forEach((linearRing) => {
+      linearRing.forEach((ringCoords) => {
         if (ringCoords[0] === 0 && ringCoords[1] < -55) {
           ringCoords[0] = 0.00001
         }
@@ -34,7 +31,7 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
     })
   }
 
-  const timezoneGeometries = tzGeojson.features.map(feature => {
+  const timezoneGeometries = tzGeojson.features.map((feature) => {
     // Perform a quick hack to make sure two Antarctic zones can be indexed
     // properly. Each of these zones shares a boundary at longitude 0. During
     // the quadtree analysis, the zones were being intersected right aloing
@@ -43,7 +40,7 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
     // LineStrings being intersected.
     if (
       feature.properties.tzid === 'Africa/Johannesburg' ||
-        feature.properties.tzid === 'Antarctica/Troll'
+      feature.properties.tzid === 'Antarctica/Troll'
     ) {
       if (feature.geometry.type === 'MultiPolygon') {
         feature.geometry.coordinates.forEach(hackLongitude0Polygon)
@@ -56,19 +53,20 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
     return geoJsonReader.read(JSON.stringify(feature.geometry))
   })
 
-  var debugWriteIdx = 1
+  let debugWriteIdx = 1
 
-  var writeDebugData = function (filename, geom) {
+  const writeDebugData = function (filename, geom) {
     fs.writeFileSync(
       'debug_' + debugWriteIdx + '_' + filename + '.json',
       JSON.stringify(geoJsonWriter.write(geom))
     )
   }
 
-  var getIntersectingGeojson = function (tzIdx, curBoundsGeometry) {
+  const getIntersectingGeojson = function (tzIdx, curBoundsGeometry) {
     // console.log('intersecting', tzGeojson.features[tzIdx].properties)
-    var intersectedGeometry = timezoneGeometries[tzIdx].intersection(curBoundsGeometry)
-    var intersectedGeoJson = geoJsonWriter.write(intersectedGeometry)
+    const intersectedGeometry =
+      timezoneGeometries[tzIdx].intersection(curBoundsGeometry)
+    const intersectedGeoJson: any = geoJsonWriter.write(intersectedGeometry)
 
     if (
       intersectedGeoJson.type === 'GeometryCollection' &&
@@ -91,8 +89,10 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
       }
       return {
         type: 'Feature',
-        properties: {},
-        geometry: intersectedGeoJson
+        properties: {
+          tzid: null,
+        },
+        geometry: intersectedGeoJson,
       }
     }
   }
@@ -106,13 +106,13 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
    *   a particular timezone as noted in the tzGeojson.features array.
    * @param  {Geometry} curBoundsGeometry The geometry to check
    */
-  var inspectZones = function (timezonesToInspect, curBoundsGeometry) {
-    var intersectedZones = []
-    var numberOfZonesThatContainBounds = 0
+  const inspectZones = function (timezonesToInspect, curBoundsGeometry) {
+    const intersectedZones = []
+    let numberOfZonesThatContainBounds = 0
 
     for (let j = timezonesToInspect.length - 1; j >= 0; j--) {
-      var curZoneIdx = timezonesToInspect[j]
-      var curZoneGeometry = timezoneGeometries[curZoneIdx]
+      const curZoneIdx = timezonesToInspect[j]
+      const curZoneGeometry = timezoneGeometries[curZoneIdx]
 
       if (curZoneGeometry.intersects(curBoundsGeometry)) {
         // bounds and timezone intersect, add to intersected zones
@@ -128,7 +128,7 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
 
     return {
       intersectedZones,
-      numberOfZonesThatContainBounds
+      numberOfZonesThatContainBounds,
     }
   }
 
@@ -137,11 +137,11 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
   // analyze each unindexable area in a queue, otherwise the program may run out
   // of memory
   function writeUnindexableData(unindexableData, geoDatFd) {
-    var features = []
+    const features = []
     // calculate intersected area for each intersected zone
     for (let j = unindexableData.intersectedZones.length - 1; j >= 0; j--) {
-      var tzIdx = unindexableData.intersectedZones[j]
-      var intersectedGeoJson = getIntersectingGeojson(
+      const tzIdx = unindexableData.intersectedZones[j]
+      const intersectedGeoJson = getIntersectingGeojson(
         tzIdx,
         unindexableData.curBoundsGeometry
       )
@@ -152,7 +152,7 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
       }
     }
 
-    var areaGeoJson = featureCollection(features)
+    const areaGeoJson: any = featureCollection(features)
 
     const buf = Buffer.from(geobuf.encode(areaGeoJson, new Pbf()))
     fs.writeSync(geoDatFd, buf, 0, buf.length)
@@ -173,28 +173,31 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
   }
 
   // recursively generate index until 99% of planet is indexed exactly
-  var curPctIndexed = 0
-  var curLevel = 1
-  var expectedAtLevel = 4
-  var curZones = [
+  let curPctIndexed = 0
+  let curLevel = 1
+  let expectedAtLevel = 4
+  let curZones = [
     {
       id: 'a',
-      bounds: [0, 0, 179.9999, 89.9999]
-    }, {
+      bounds: [0, 0, 179.9999, 89.9999],
+    },
+    {
       id: 'b',
-      bounds: [-179.9999, 0, 0, 89.9999]
-    }, {
+      bounds: [-179.9999, 0, 0, 89.9999],
+    },
+    {
       id: 'c',
-      bounds: [-179.9999, -89.9999, 0, 0]
-    }, {
+      bounds: [-179.9999, -89.9999, 0, 0],
+    },
+    {
       id: 'd',
-      bounds: [0, -89.9999, 179.9999, 0]
-    }
+      bounds: [0, -89.9999, 179.9999, 0],
+    },
   ]
-  var printMod, curZone, curBounds, curBoundsGeometry
+  let printMod, curZone, curBounds, curBoundsGeometry
 
   while (curPctIndexed < targetIndexPercent) {
-    var nextZones = []
+    const nextZones = []
 
     console.log('*********************************************')
     console.log('level', curLevel, ' pct Indexed: ', curPctIndexed)
@@ -204,29 +207,32 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
 
     for (let i = curZones.length - 1; i >= 0; i--) {
       if (i % printMod === 0) {
-        console.log('inspecting index area ', curZones.length - i, ' of ', curZones.length)
+        console.log(
+          'inspecting index area ',
+          curZones.length - i,
+          ' of ',
+          curZones.length
+        )
       }
 
       curZone = curZones[i]
       curBounds = curZone.bounds
       curBoundsGeometry = geoJsonReader.read(
         JSON.stringify(
-          polygon(
+          polygon([
             [
-              [
-                [curBounds[0], curBounds[1]],
-                [curBounds[0], curBounds[3]],
-                [curBounds[2], curBounds[3]],
-                [curBounds[2], curBounds[1]],
-                [curBounds[0], curBounds[1]]
-              ]
-            ]
-          ).geometry
+              [curBounds[0], curBounds[1]],
+              [curBounds[0], curBounds[3]],
+              [curBounds[2], curBounds[3]],
+              [curBounds[2], curBounds[1]],
+              [curBounds[0], curBounds[1]],
+            ],
+          ]).geometry
         )
       )
 
       // calculate intersection with timezone boundaries
-      var timezonesToInspect = []
+      let timezonesToInspect = []
 
       if (curZone.tzs) {
         // only examine confirmed timezones found in last iteration
@@ -238,10 +244,11 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
         }
       }
 
-      var result = inspectZones(timezonesToInspect, curBoundsGeometry)
-      var intersectedZones = result.intersectedZones
-      var numberOfZonesThatContainBounds = result.numberOfZonesThatContainBounds
-      var zoneResult = -1 // defaults to no zones found
+      const result = inspectZones(timezonesToInspect, curBoundsGeometry)
+      const intersectedZones = result.intersectedZones
+      const numberOfZonesThatContainBounds =
+        result.numberOfZonesThatContainBounds
+      let zoneResult: any = -1 // defaults to no zones found
 
       // check the results
       if (
@@ -252,48 +259,48 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
         zoneResult = intersectedZones
       } else if (intersectedZones.length > 0) {
         // further analysis needed
-        var topRight = {
+        const topRight = {
           id: curZone.id + '.a',
           tzs: intersectedZones,
           bounds: [
             (curBounds[0] + curBounds[2]) / 2,
             (curBounds[1] + curBounds[3]) / 2,
             curBounds[2],
-            curBounds[3]
-          ]
+            curBounds[3],
+          ],
         }
 
-        var topLeft = {
+        const topLeft = {
           id: curZone.id + '.b',
           tzs: intersectedZones,
           bounds: [
             curBounds[0],
             (curBounds[1] + curBounds[3]) / 2,
             (curBounds[0] + curBounds[2]) / 2,
-            curBounds[3]
-          ]
+            curBounds[3],
+          ],
         }
 
-        var bottomLeft = {
+        const bottomLeft = {
           id: curZone.id + '.c',
           tzs: intersectedZones,
           bounds: [
             curBounds[0],
             curBounds[1],
             (curBounds[0] + curBounds[2]) / 2,
-            (curBounds[1] + curBounds[3]) / 2
-          ]
+            (curBounds[1] + curBounds[3]) / 2,
+          ],
         }
 
-        var bottomRight = {
+        const bottomRight = {
           id: curZone.id + '.d',
           tzs: intersectedZones,
           bounds: [
             (curBounds[0] + curBounds[2]) / 2,
             curBounds[1],
             curBounds[2],
-            (curBounds[1] + curBounds[3]) / 2
-          ]
+            (curBounds[1] + curBounds[3]) / 2,
+          ],
         }
 
         nextZones.push(topRight)
@@ -305,7 +312,7 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
           a: intersectedZones,
           b: intersectedZones,
           c: intersectedZones,
-          d: intersectedZones
+          d: intersectedZones,
         }
       }
 
@@ -326,41 +333,44 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
   console.log('*********************************************')
   console.log('reached target index: ', curPctIndexed)
   console.log('writing unindexable zone data')
-  const geoDatFd = fs.openSync(`${dataDir}/geo.dat`, 'w');
+  const geoDatFd = fs.openSync(`${dataDir}/geo.dat`, 'w')
 
   printMod = Math.round(curZones.length / 5)
 
   // process remaining zones and write out individual geojson for each small region
   for (let i = curZones.length - 1; i >= 0; i--) {
     if (i % printMod === 0) {
-      console.log('inspecting unindexable area ', curZones.length - i, ' of ', curZones.length)
+      console.log(
+        'inspecting unindexable area ',
+        curZones.length - i,
+        ' of ',
+        curZones.length
+      )
     }
 
     curZone = curZones[i]
     curBounds = curZone.bounds
     curBoundsGeometry = geoJsonReader.read(
       JSON.stringify(
-        polygon(
+        polygon([
           [
-            [
-              [curBounds[0], curBounds[1]],
-              [curBounds[0], curBounds[3]],
-              [curBounds[2], curBounds[3]],
-              [curBounds[2], curBounds[1]],
-              [curBounds[0], curBounds[1]]
-            ]
-          ]
-        ).geometry
+            [curBounds[0], curBounds[1]],
+            [curBounds[0], curBounds[3]],
+            [curBounds[2], curBounds[3]],
+            [curBounds[2], curBounds[1]],
+            [curBounds[0], curBounds[1]],
+          ],
+        ]).geometry
       )
     )
 
     // console.log('writing zone data `', curZone.id, '`', i ,'of', curZones.length)
-    result = inspectZones(curZone.tzs, curBoundsGeometry)
-    intersectedZones = result.intersectedZones
-    numberOfZonesThatContainBounds = result.numberOfZonesThatContainBounds
+    const result = inspectZones(curZone.tzs, curBoundsGeometry)
+    const intersectedZones = result.intersectedZones
+    const numberOfZonesThatContainBounds = result.numberOfZonesThatContainBounds
 
     // console.log('intersectedZones', intersectedZones.length, 'exact:', foundExactMatch)
-    zoneResult = -1 // defaults to no zones found
+    let zoneResult: any = -1 // defaults to no zones found
 
     // check the results
     if (
@@ -374,9 +384,9 @@ module.exports = function (tzGeojson, dataDir, targetIndexPercent, callback) {
         {
           curBoundsGeometry,
           curZone,
-          intersectedZones
+          intersectedZones,
         },
-        geoDatFd,
+        geoDatFd
       )
     }
 

@@ -80,4 +80,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # project exclusions
+dist
 downloads

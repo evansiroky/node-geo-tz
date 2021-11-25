@@ -18,23 +18,54 @@
   "engines": {
     "node": ">=12"
   },
-  "main": "index.js",
+  "source": "src/find.ts",
+  "exports": {
+    "require": "./dist/geo-tz.js",
+    "default": "./dist/geo-tz.modern.js"
+  },
+  "main": "./dist/geo-tz.js",
+  "module": "./dist/geo-tz.module.js",
+  "unpkg": "./dist/geo-tz.umd.js",
+  "types": "dist/find.d.ts",
   "scripts": {
+    "build": "microbundle",
     "cover": "nyc -r=lcov -r=text npm run test",
+    "lint": "eslint scripts src tests --ext .js,.ts",
     "semantic-release": "semantic-release",
-    "test": "mocha --max-old-space-size=8192 \"tests/**/*.js\"",
-    "updateTzData": "node scripts/update-data.js"
+    "test": "mocha -r ts-node/register --max-old-space-size=8192 \"tests/**/*.ts\"",
+    "updateTzData": "ts-node scripts/update-data.ts"
   },
   "devDependencies": {
+    "@types/async": "^3.2.10",
+    "@types/chai": "^4.2.22",
+    "@types/follow-redirects": "^1.13.1",
+    "@types/geobuf": "^3.0.1",
+    "@types/jsts": "^0.17.6",
+    "@types/lodash": "^4.14.177",
+    "@types/mocha": "^9.0.0",
+    "@types/yauzl": "^2.9.2",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "async": "^3.2.2",
     "chai": "^4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.1",
     "follow-redirects": "^1.14.5",
     "jsts": "2.6.1",
     "lodash": "^4.17.21",
+    "microbundle": "^0.14.2",
     "mocha": "^9.1.3",
     "nock": "^13.2.1",
     "nyc": "^15.1.0",
+    "prettier": "^2.4.1",
     "semantic-release": "^18.0.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
     "yauzl": "^2.10.0"
   },
   "dependencies": {
