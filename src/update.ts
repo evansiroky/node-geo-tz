@@ -47,6 +47,7 @@ const downloadLatest = function (callback) {
           .on('error', cb)
       },
       rm: function (cb) {
+        // fs.rm requires node v14+, so this will cause CI failures on node v12
         fs.rm(dlFile, { force: true, recursive: true }, cb)
       },
       mkdir: [
@@ -113,6 +114,7 @@ export default function (cfg, callback) {
           async.each(
             ['geo.dat', 'index.json'],
             function (fileOrFolder, eachCb) {
+              // fs.rm requires node v14+, so this will cause CI failures on node v12
               fs.rm(
                 resolvedDataDir + '/' + fileOrFolder,
                 { force: true, recursive: true },
