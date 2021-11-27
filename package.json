@@ -19,10 +19,6 @@
     "node": ">=12"
   },
   "source": "src/find.ts",
-  "exports": {
-    "require": "./dist/geo-tz.js",
-    "default": "./dist/geo-tz.modern.js"
-  },
   "main": "./dist/geo-tz.js",
   "module": "./dist/geo-tz.module.js",
   "unpkg": "./dist/geo-tz.umd.js",

@@ -134,7 +134,7 @@ function loadFeatures(
  * @param lon longitue (must be >= -180 and <=180)
  * @returns An array of string of TZIDs at the given coordinate.
  */
-export default function getTimezone(lat: number, lon: number): string[] {
+export function find(lat: number, lon: number): string[] {
   const originalLon = lon
 
   let err

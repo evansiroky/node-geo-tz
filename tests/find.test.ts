@@ -2,7 +2,7 @@
 
 import { assert } from 'chai'
 
-import geoTz, { preCache } from '../src/find'
+import { find, preCache } from '../src/find'
 import { oceanZones } from '../src/oceanUtils'
 
 const issueCoords = require('./fixtures/issues.json')
@@ -20,7 +20,7 @@ function assertTzResultContainsTzs(lat, lon, tzs) {
   if (typeof tzs === 'string') {
     tzs = [tzs]
   }
-  const result = geoTz(lat, lon)
+  const result = find(lat, lon)
   assert.isArray(result)
   assert.sameMembers(result, tzs)
 }
@@ -89,7 +89,7 @@ describe('find tests', function () {
       const timingStr = 'find tz of ' + count + ' random european positions'
       console.time(timingStr)
       for (let i = 0; i < count; i++) {
-        geoTz(
+        find(
           europeTopLeft[0] +
             Math.random() * (europeBottomRight[0] - europeTopLeft[0]),
           europeTopLeft[1] +

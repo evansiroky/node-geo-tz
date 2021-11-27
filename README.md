@@ -10,17 +10,19 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 ## Usage
 
 ```js
-    const geoTz = require('geo-tz')
+    const { find } = require('geo-tz')
 
-    geoTz(47.650499, -122.350070)  // ['America/Los_Angeles']
-    geoTz(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
+    find(47.650499, -122.350070)  // ['America/Los_Angeles']
+    find(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
 ```
 
 ## API Docs:
 
+As of Version 7, there is no longer a default import. The `find` function should be used instead.
+
 As of Version 5, the API now returns a list of possible timezones. There are certain coordinates where the timekeeping method will depend on the person you ask. Also, another case where 2 or more timezones could be returned is when a request is made with a coordinate that happens to be exactly on the border between two or more timezones.
 
-### geoTz(lat, lon)
+### find(lat, lon)
 
 Returns the timezone names found at `lat`, `lon`.  The timezone names will be the timezone identifiers as defined in the [timezone database](https://www.iana.org/time-zones).  The underlying geographic data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project.
 
@@ -28,7 +30,7 @@ This library does an exact geographic lookup which has tradeoffs.  It is perhaps
 
 The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
-### geoTz.setCache(options)
+### setCache(options)
 
 By default, geoTz lazy-loads exact lookup data into an unexpiring cache. The `setCache` method can be used to change the caching behavior using the following options:
 
@@ -38,10 +40,10 @@ By default, geoTz lazy-loads exact lookup data into an unexpiring cache. The `se
 Examples:
 
 ```js
-geoTz.setCache({ preload: true }) // preloads all files
+setCache({ preload: true }) // preloads all files
 
 let map = new Map();
-geoTz.setCache({ store: map }) // pass a Map-like storage object
+setCache({ store: map }) // pass a Map-like storage object
 ```
 
 ## Limitations
