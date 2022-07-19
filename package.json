@@ -27,6 +27,7 @@
     "build": "microbundle",
     "cover": "nyc -r=lcov -r=text npm run test",
     "lint": "eslint scripts src tests --ext .js,.ts",
+    "prepublishOnly": "npm run build",
     "semantic-release": "semantic-release",
     "test": "mocha -r ts-node/register --max-old-space-size=8192 \"tests/**/*.ts\"",
     "updateTzData": "ts-node scripts/update-data.ts"

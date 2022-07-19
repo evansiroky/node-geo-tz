@@ -82,3 +82,4 @@ $RECYCLE.BIN/
 # project exclusions
 dist
 downloads
+/.idea
