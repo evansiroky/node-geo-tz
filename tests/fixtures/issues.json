@@ -224,5 +224,15 @@
     "lat": 48.44,
     "lon": -89.2,
     "description": "#144 - 2022b - test for America/Thunder_Bay timezone"
+  }, {
+    "zid": "Europe/Kyiv",
+    "lat": 48.60915,
+    "lon": 22.29949,
+    "description": "#146 - 2022d - test for Europe/Kyiv timezone (formerly Europe/Uzhgorod)"
+  }, {
+    "zid": "Europe/Kyiv",
+    "lat": 47.79539,
+    "lon": 35.18682,
+    "description": "#146 - 2022d - test for Europe/Kyiv timezone (formerly Europe/Zaporozhye)"
   }
 ]
