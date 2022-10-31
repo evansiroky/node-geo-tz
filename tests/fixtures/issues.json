@@ -210,21 +210,6 @@
     "lon": 41.021173,
     "description": "#106 - 2020a - test for overlapping zones in Abkhazia area"
   }, {
-    "zid": "America/Rainy_River",
-    "lat": 48.72,
-    "lon": -94.564,
-    "description": "#144 - 2022b - test for America/Rainy_River timezone"
-  }, {
-    "zid": "America/Nipigon",
-    "lat": 49,
-    "lon": -88.313,
-    "description": "#144 - 2022b - test for America/Nipigon timezone"
-  }, {
-    "zid": "America/Thunder_Bay",
-    "lat": 48.44,
-    "lon": -89.2,
-    "description": "#144 - 2022b - test for America/Thunder_Bay timezone"
-  }, {
     "zid": "Europe/Kyiv",
     "lat": 48.60915,
     "lon": 22.29949,
@@ -234,5 +219,30 @@
     "lat": 47.79539,
     "lon": 35.18682,
     "description": "#146 - 2022d - test for Europe/Kyiv timezone (formerly Europe/Zaporozhye)"
+  }, {
+    "zid": "America/Winnipeg",
+    "lat": 48.72,
+    "lon": -94.564,
+    "description": "#148 - 2022f - test for America/Winnipeg timezone (formerly America/Rainy_River)"
+  }, {
+    "zid": "America/Toronto",
+    "lat": 49,
+    "lon": -88.313,
+    "description": "#148 - 2022f - test for America/Toronto (formerly America/Nipigon timezone)"
+  }, {
+    "zid": "America/Toronto",
+    "lat": 48.44,
+    "lon": -89.2,
+    "description": "#148 - 2022f - test for America/Toronto (formerly America/Thunder_Bay timezone)"
+  }, {
+    "zid": "America/Matamoros",
+    "lat": 28.34804,
+    "lon": -100.85401,
+    "description": "#148 - 2022f - test for America/Matamoros"
+  }, {
+    "zid": "America/Monterrey",
+    "lat": 26.06374,
+    "lon": -99.19651,
+    "description": "#148 - 2022f - test for America/Monterrey"
   }
 ]
