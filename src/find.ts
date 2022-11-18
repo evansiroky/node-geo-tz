@@ -10,7 +10,9 @@ import { getTimezoneAtSea, oceanZones } from './oceanUtils'
 
 const tzData = require('../data/index.json')
 
-const FEATURE_FILE_PATH = path.join(__dirname, '..', 'data', 'geo.dat')
+const FEATURE_FILE_PATH =
+  process.env.GTZ_FEATURE_FILE_PATH ||
+  path.join(__dirname, '..', 'data', 'geo.dat')
 let featureCache
 
 type CacheOptions = {

@@ -46,6 +46,12 @@ let map = new Map();
 setCache({ store: map }) // pass a Map-like storage object
 ```
 
+## Environment variable
+
+### `GTZ_FEATURE_FILE_PATH`
+
+This environment variable can be used to alter where the `preload` option looks for timezone data. The default is `../data/geo.dat`.
+
 ## Limitations
 
 This library is not intended to be used in the browser due to the large amount of files that are included to perform exact geographic lookups.
