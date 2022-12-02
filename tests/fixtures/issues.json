@@ -244,5 +244,15 @@
     "lat": 26.06374,
     "lon": -99.19651,
     "description": "#148 - 2022f - test for America/Monterrey"
+  }, {
+    "zid": "America/Iqaluit",
+    "lat": 66.1497,
+    "lon": -65.70026,
+    "description": "#153 - 2022f - test for America/Iqaluit"
+  }, {
+    "zid": "America/Ciudad_Juarez",
+    "lat": 31.74401,
+    "lon": -106.48677,
+    "description": "#153 - 2022f - test for America/Ciudad_Juarez"
   }
 ]
