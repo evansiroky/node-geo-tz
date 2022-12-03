@@ -13,7 +13,7 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "14"
+    - node_js: "16"
       env: COVERAGE=true
       script:
         - "npm run cover"
@@ -23,7 +23,7 @@ matrix:
         - npm run build
         - npm run semantic-release
   allow_failures:
-    - node_js: "14"
+    - node_js: "16"
       env: COVERAGE=true
       script:
         - "npm run cover"
