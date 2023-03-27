@@ -140,9 +140,9 @@
     "lon": 31.416836,
     "description": "#89 - 2019a - test for zone Asia/Khartoum in Sudanese part of Lake Nasser"
   }, {
-    "zid": "America/Adak",
-    "lat": 52.031192,
-    "lon": 178.913872,
+    "zid": ["Africa/Johannesburg", "Antarctica/McMurdo"],
+    "lat": -86,
+    "lon": 0,
     "description": "#90 - some file-based data was showing up as non-polygon geojson"
   }, {
     "zids": ["Africa/Johannesburg", "Antarctica/McMurdo", "Etc/UTC"],
@@ -164,11 +164,6 @@
     "lat": 64.900980,
     "lon": -125.572725,
     "description": "#106 - 2020a - test for expanded America/Inuvik timezone"
-  }, {
-    "zid": "America/Yellowknife",
-    "lat": 61.164993,
-    "lon": -113.675715,
-    "description": "#106 - 2020a - test for America/Yellowknife timezone"
   }, {
     "zid": "America/Edmonton",
     "lat": 53.277915,
@@ -254,5 +249,25 @@
     "lat": 31.74401,
     "lon": -106.48677,
     "description": "#153 - 2022f - test for America/Ciudad_Juarez"
+  }, {
+    "zid": "America/Edmonton",
+    "lat": 61.164993,
+    "lon": -113.675715,
+    "description": "#158 - 2023b - test for America/Edmonton (formerly America/Yellowknife timezone)"
+  }, {
+    "zid": "Asia/Magadan",
+    "lat": 43.959242,
+    "lon": 145.681231,
+    "description": "#158 - 2023b - test for Asia/Magadan (formerly Asia/Ust-Nera timezone)"
+  }, {
+    "zid": "Asia/Yakutsk",
+    "lat": 75.766734,
+    "lon": 137.576917,
+    "description": "#158 - 2023b - test for Asia/Yakutsk (formerly Asia/Vladivostok timezone)"
+  }, {
+    "zid": "Europe/Oslo",
+    "lat": 70.922533, 
+    "lon": -8.714836,
+    "description": "#158 - 2023b - test for Europe/Oslo"
   }
 ]
