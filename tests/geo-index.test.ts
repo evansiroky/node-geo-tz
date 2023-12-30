@@ -61,7 +61,7 @@ describe('geoindex', function () {
       assertSubzoneDataIsEqual(
         zone1.pos,
         zone1.len,
-        require('./fixtures/expectedSubzone1.json')
+        require('./fixtures/expectedSubzone1.json'),
       )
 
       const zone2 = generatedIndex.lookup.b.c.a.a.a.d
@@ -69,7 +69,7 @@ describe('geoindex', function () {
       assertSubzoneDataIsEqual(
         zone2.pos,
         zone2.len,
-        require('./fixtures/expectedSubzone2.json')
+        require('./fixtures/expectedSubzone2.json'),
       )
 
       done()

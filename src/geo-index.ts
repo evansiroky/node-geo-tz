@@ -58,7 +58,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
   const writeDebugData = function (filename, geom) {
     fs.writeFileSync(
       'debug_' + debugWriteIdx + '_' + filename + '.json',
-      JSON.stringify(geoJsonWriter.write(geom))
+      JSON.stringify(geoJsonWriter.write(geom)),
     )
   }
 
@@ -143,7 +143,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
       const tzIdx = unindexableData.intersectedZones[j]
       const intersectedGeoJson = getIntersectingGeojson(
         tzIdx,
-        unindexableData.curBoundsGeometry
+        unindexableData.curBoundsGeometry,
       )
 
       if (intersectedGeoJson) {
@@ -211,7 +211,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
           'inspecting index area ',
           curZones.length - i,
           ' of ',
-          curZones.length
+          curZones.length,
         )
       }
 
@@ -227,8 +227,8 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
               [curBounds[2], curBounds[1]],
               [curBounds[0], curBounds[1]],
             ],
-          ]).geometry
-        )
+          ]).geometry,
+        ),
       )
 
       // calculate intersection with timezone boundaries
@@ -344,7 +344,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
         'inspecting unindexable area ',
         curZones.length - i,
         ' of ',
-        curZones.length
+        curZones.length,
       )
     }
 
@@ -360,8 +360,8 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
             [curBounds[2], curBounds[1]],
             [curBounds[0], curBounds[1]],
           ],
-        ]).geometry
-      )
+        ]).geometry,
+      ),
     )
 
     // console.log('writing zone data `', curZone.id, '`', i ,'of', curZones.length)
@@ -386,7 +386,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
           curZone,
           intersectedZones,
         },
-        geoDatFd
+        geoDatFd,
       )
     }
 

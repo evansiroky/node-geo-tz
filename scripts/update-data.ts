@@ -8,5 +8,5 @@ update(
       console.log('update successfully completed')
     }
   },
-  () => {}
+  () => {},
 )

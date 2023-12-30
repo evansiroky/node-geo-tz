@@ -34,7 +34,7 @@ const downloadLatest = function (callback) {
                 for (let i = 0; i < parsed.assets.length; i++) {
                   if (
                     parsed.assets[i].browser_download_url.indexOf(
-                      'timezones.geojson'
+                      'timezones.geojson',
                     ) > -1
                   ) {
                     return cb(null, parsed.assets[i].browser_download_url)
@@ -42,7 +42,7 @@ const downloadLatest = function (callback) {
                 }
                 cb(new Error('geojson not found'))
               })
-            }
+            },
           )
           .on('error', cb)
       },
@@ -56,7 +56,7 @@ const downloadLatest = function (callback) {
           fs.mkdir(
             path.join(__dirname, '..', 'downloads'),
             { recursive: true },
-            cb
+            cb,
           )
         },
       ],
@@ -78,13 +78,13 @@ const downloadLatest = function (callback) {
                 file.on('finish', function () {
                   file.close(cb)
                 })
-              }
+              },
             )
             .on('error', cb)
         },
       ],
     },
-    callback
+    callback,
   )
 }
 
@@ -118,10 +118,10 @@ export default function (cfg, callback) {
               fs.rm(
                 resolvedDataDir + '/' + fileOrFolder,
                 { force: true, recursive: true },
-                eachCb
+                eachCb,
               )
             },
-            cb
+            cb,
           )
         },
       ],
@@ -164,11 +164,11 @@ export default function (cfg, callback) {
             require(tzFile),
             resolvedDataDir,
             TARGET_INDEX_PERCENT,
-            cb
+            cb,
           )
         },
       ],
     },
-    callback
+    callback,
   )
 }

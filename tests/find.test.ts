@@ -62,7 +62,7 @@ describe('find tests', function () {
     assertTzResultContainsTzs(
       90,
       0,
-      oceanZones.map((zone) => zone.tzid)
+      oceanZones.map((zone) => zone.tzid),
     )
   })
 
@@ -73,7 +73,7 @@ describe('find tests', function () {
         'should find ' + spotDescription + ' (' + spot.description + ')',
         function () {
           assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
-        }
+        },
       )
     })
   })
@@ -93,7 +93,7 @@ describe('find tests', function () {
           europeTopLeft[0] +
             Math.random() * (europeBottomRight[0] - europeTopLeft[0]),
           europeTopLeft[1] +
-            Math.random() * (europeBottomRight[1] - europeTopLeft[1])
+            Math.random() * (europeBottomRight[1] - europeTopLeft[1]),
         )
       }
       console.timeEnd(timingStr)
@@ -103,7 +103,7 @@ describe('find tests', function () {
       'should find timezone of ' +
         count +
         ' random european positions with on-demand caching',
-      findRandomPositions
+      findRandomPositions,
     )
 
     it(
@@ -113,7 +113,7 @@ describe('find tests', function () {
       function () {
         preCache()
         findRandomPositions()
-      }
+      },
     )
   })
 })

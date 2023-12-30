@@ -44,7 +44,7 @@ describe('data update', function () {
 
     const githubDlScope = nock('https://github.com')
       .get(
-        '/evansiroky/timezone-boundary-builder/releases/download/2016d/timezones.geojson.zip'
+        '/evansiroky/timezone-boundary-builder/releases/download/2016d/timezones.geojson.zip',
       )
       .replyWithFile(200, path.join(LOCAL_FOLDER, 'dist.zip'))
 
@@ -73,7 +73,7 @@ describe('data update', function () {
             assert.isAbove(
               stats.ctime.getTime(),
               aWhileAgo,
-              'file update time is before test!'
+              'file update time is before test!',
             )
           } catch (e) {
             return doneHelper(e)
@@ -81,7 +81,7 @@ describe('data update', function () {
 
           doneHelper()
         })
-      }
+      },
     )
   })
 })

@@ -70,7 +70,7 @@ function _preCache(featureFileFd: number) {
         quadPos,
         curTzData.pos,
         curTzData.len,
-        featureFileFd
+        featureFileFd,
       )
       featureCache.set(quadPos, geoJson)
     } else if (typeof curTzData === 'object') {
@@ -97,7 +97,7 @@ function loadFeatures(
   quadPos: string,
   pos: number,
   len: number,
-  fd: number = -1
+  fd: number = -1,
 ) {
   let featureFileFd = fd
   if (featureFileFd < 0) {
@@ -119,7 +119,7 @@ function loadFeatures(
 
   if (bytesRead < len) {
     throw new Error(
-      `tried to read ${len} bytes from geo.dat but only got ${bytesRead} bytes`
+      `tried to read ${len} bytes from geo.dat but only got ${bytesRead} bytes`,
     )
   }
 
