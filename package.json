@@ -18,13 +18,31 @@
   "engines": {
     "node": ">=12"
   },
-  "source": "src/find.ts",
-  "main": "./dist/geo-tz.js",
-  "module": "./dist/geo-tz.module.js",
-  "unpkg": "./dist/geo-tz.umd.js",
-  "types": "dist/find.d.ts",
+  "exports": {
+    ".": {
+      "main": "./dist/find-1970.js",
+      "module": "./dist/find-1970.module.js",
+      "unpkg": "./dist/find-1970.umd.js",
+      "types": "dist/find-1970.d.ts"
+    }, 
+    "./all": {
+      "main": "./dist/find-all.js",
+      "module": "./dist/find-all.module.js",
+      "unpkg": "./dist/find-all.umd.js",
+      "types": "dist/find-all.d.ts"
+    },
+    "./now": {
+      "main": "./dist/find-now.js",
+      "module": "./dist/find-now.module.js",
+      "unpkg": "./dist/find-now.umd.js",
+      "types": "dist/find-now.d.ts"
+    }
+  },
   "scripts": {
-    "build": "microbundle",
+    "build": "npm-run-all build:*",
+    "build:all": "microbundle -i src/find-all.ts -o ./dist/find-all.js",
+    "build:1970": "microbundle -i src/find-1970.ts -o ./dist/find-1970.js",
+    "build:now": "microbundle -i src/find-now.ts -o ./dist/find-now.js",
     "cover": "nyc -r=lcov -r=text npm run test",
     "lint": "eslint scripts src tests --ext .js,.ts",
     "semantic-release": "semantic-release",
@@ -57,6 +75,7 @@
     "microbundle": "^0.15.1",
     "mocha": "^10.2.0",
     "nock": "^13.4.0",
+    "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "prettier": "^3.1.1",
     "semantic-release": "^22.0.12",
