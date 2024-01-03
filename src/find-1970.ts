@@ -1,8 +1,11 @@
+
+import * as path from 'path'
+
 import type { CacheOptions } from './find'
 import { findUsingDataset, setCacheLevel } from './find'
 
 const TZ_DATA = require('../data/timezones-1970.geojson.index.json')
-const FEATURE_FILE_PATH = '../data/timezones-1970.geojson.geo.dat'
+const FEATURE_FILE_PATH = path.join(__dirname, '..', 'data', 'timezones-1970.geojson.geo.dat')
 let featureCache
 
 /**

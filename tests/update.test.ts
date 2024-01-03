@@ -10,8 +10,7 @@ import { createDataDir, destroyDataDir } from './util'
 
 import update from '../src/update'
 
-const TEST_DATA_DIR = './data-test-update'
-const resolvedDataDir = path.join(__dirname, '..', TEST_DATA_DIR)
+const TEST_DIR = path.join(__dirname, '..', 'data-test-update')
 const LOCAL_FOLDER = path.join(__dirname, '..', 'tests', 'fixtures')
 
 describe('data update', function () {
@@ -19,11 +18,11 @@ describe('data update', function () {
   this.slow(2000)
 
   beforeEach(function (done) {
-    createDataDir(resolvedDataDir, done)
+    createDataDir(TEST_DIR, done)
   })
 
   afterEach(function (done) {
-    destroyDataDir(resolvedDataDir, done)
+    destroyDataDir(TEST_DIR, done)
   })
 
   it('tz geojson should get updated after fetching valid shapefile', function (done) {
@@ -79,9 +78,9 @@ describe('data update', function () {
     // update timezone data by downloading it and extracting to geojson
     update(
       {
-        dataDir: TEST_DATA_DIR,
+        baseDir: TEST_DIR,
       },
-      function (err) {
+      (err) => {
         try {
           assert.isNotOk(err)
         } catch (e) {
@@ -90,7 +89,7 @@ describe('data update', function () {
 
         // check for geojson file existence
         fs.stat(
-          path.join(resolvedDataDir, 'timezones.geojson.index.json'),
+          path.join(TEST_DIR, 'data', 'timezones.geojson.index.json'),
           (err, stats) => {
             try {
               assert.isNotOk(err)

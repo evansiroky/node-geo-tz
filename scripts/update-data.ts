@@ -7,6 +7,5 @@ update(
     } else {
       console.log('update successfully completed')
     }
-  },
-  () => {},
+  }
 )

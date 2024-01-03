@@ -13,21 +13,22 @@ const dataProducts = [
   'timezones-1970.geojson',
   'timezones-now.geojson',
 ]
+let resolvedBaseDir, downloadsDir, dataDir
 
 function makeFileDownloadPath(product: string) {
-  return path.join(__dirname, '..', 'downloads', `${product}.zip`)
+  return path.join(downloadsDir, `${product}.zip`)
 }
 
 function makeUnzipFilePath(product: string) {
-  return path.join(__dirname, '..', 'downloads', `${product}.json`)
+  return path.join(dataDir, `${product}.json`)
 }
 
 function recreateDirectory(dir: string, callback) {
-  const dirPath = path.join(__dirname, '..', dir)
+  console.log(`recreating directory: ${dir}`)
   // fs.rm requires node v14+, so this will cause CI failures on node v12
-  fs.rm(dirPath, { force: true, recursive: true }, (err) => {
+  fs.rm(dir, { force: true, recursive: true }, (err) => {
     if (err) return callback(err)
-    fs.mkdir(dirPath, { recursive: true }, callback)
+    fs.mkdir(dir, { recursive: true }, callback)
   })
 }
 
@@ -94,6 +95,7 @@ function downloadProduct(releaseMetadata, product, callback) {
 }
 
 function unzipDownloadProduct(product, callback) {
+  console.log(`unzipping data for ${product}`)
   yauzl.open(
     makeFileDownloadPath(product),
     { lazyEntries: true },
@@ -124,10 +126,10 @@ function unzipDownloadProduct(product, callback) {
   )
 }
 
-function geoIndexProduct(resolvedDataDir, product, callback) {
+function geoIndexProduct(product, callback) {
   indexGeoJSON(
     require(makeUnzipFilePath(product)),
-    resolvedDataDir,
+    dataDir,
     product,
     TARGET_INDEX_PERCENT,
     callback,
@@ -135,53 +137,56 @@ function geoIndexProduct(resolvedDataDir, product, callback) {
 }
 
 function processDataProduct(
-  resolvedDataDir,
-  releaseMetadata,
   product,
   callback,
 ) {
   async.series(
     [
-      // download data
-      (cb) => downloadProduct(releaseMetadata, product, cb),
+      
       // unzip data
       (cb) => unzipDownloadProduct(product, cb),
       // geoIndex data
-      (cb) => geoIndexProduct(resolvedDataDir, product, cb),
+      (cb) => geoIndexProduct(product, cb),
     ],
     callback,
   )
 }
 
-export default function (cfg, callback) {
-  if (!callback) {
-    if (typeof cfg === 'function') {
-      callback = cfg
-      cfg = {}
-    } else {
-      callback = function () {}
-    }
+export default function (cfg: { baseDir?: string } | Function, callback?) {
+  if (typeof cfg === 'function') {
+    callback = cfg
+    resolvedBaseDir = path.join(__dirname, '..')
+  } else {
+    resolvedBaseDir = cfg.baseDir
+    callback = callback || function () {}
   }
 
-  const resolvedDataDir = cfg.dataDir
-    ? path.join(__dirname, '..', cfg.dataDir)
-    : path.join(__dirname, '..', 'data')
+  downloadsDir = path.join(resolvedBaseDir, 'downloads')
+  dataDir = path.join(resolvedBaseDir, 'data')
 
   async.auto(
     {
-      recreateDownloadDir: (cb) => recreateDirectory('downloads', cb),
-      recreateDataDir: (cb) => recreateDirectory('data', cb),
+      recreateDownloadDir: (cb) => recreateDirectory(downloadsDir, cb),
+      recreateDataDir: (cb) => recreateDirectory(dataDir, cb),
       downloadReleaseMetadata: ['recreateDownloadDir', downloadReleaseMetadata],
-      calculateLookupData: [
-        'recreateDataDir',
+      downloadData: [
         'downloadReleaseMetadata',
         (results, cb) =>
           async.map(
             dataProducts,
             (dataProduct, mapCb) =>
+              downloadProduct(results.downloadReleaseMetadata, dataProduct, mapCb),
+            cb
+          )
+      ],
+      calculateLookupData: [
+        'recreateDataDir',
+        'downloadData',
+        (results, cb) =>
+          async.map(
+            dataProducts,
+            (dataProduct, mapCb) =>
               processDataProduct(
-                resolvedDataDir,
-                results.downloadReleaseMetadata,
                 dataProduct,
                 mapCb,
               ),

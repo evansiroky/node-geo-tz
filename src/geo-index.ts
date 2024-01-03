@@ -17,7 +17,7 @@ export default function (
   targetIndexPercent,
   callback,
 ) {
-  console.log('indexing')
+  console.log(`indexing data for ${product}`)
 
   const data = {
     timezones: [],
