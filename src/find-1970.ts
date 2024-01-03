@@ -1,4 +1,3 @@
-
 import * as path from 'path'
 
 import type { CacheOptions } from './find'

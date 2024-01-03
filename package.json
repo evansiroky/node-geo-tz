@@ -18,36 +18,37 @@
   "engines": {
     "node": ">=12"
   },
+  "main": "dist/find-1970.js",
   "exports": {
     ".": {
       "main": "./dist/find-1970.js",
-      "module": "./dist/find-1970.module.js",
-      "unpkg": "./dist/find-1970.umd.js",
-      "types": "dist/find-1970.d.ts"
-    }, 
+      "import": "./dist/find-1970.js",
+      "require": "./dist/find-1970.js",
+      "types": "./dist/find-1970.d.ts"
+    },
     "./all": {
       "main": "./dist/find-all.js",
-      "module": "./dist/find-all.module.js",
-      "unpkg": "./dist/find-all.umd.js",
-      "types": "dist/find-all.d.ts"
+      "import": "./dist/find-all.js",
+      "require": "./dist/find-all.js",
+      "types": "./dist/find-all.d.ts"
     },
     "./now": {
       "main": "./dist/find-now.js",
-      "module": "./dist/find-now.module.js",
-      "unpkg": "./dist/find-now.umd.js",
-      "types": "dist/find-now.d.ts"
+      "import": "./dist/find-now.js",
+      "require": "./dist/find-now.js",
+      "types": "./dist/find-now.d.ts"
     }
   },
   "scripts": {
     "build": "npm-run-all build:*",
-    "build:all": "microbundle -i src/find-all.ts -o ./dist/find-all.js",
-    "build:1970": "microbundle -i src/find-1970.ts -o ./dist/find-1970.js",
-    "build:now": "microbundle -i src/find-now.ts -o ./dist/find-now.js",
+    "build:all": "microbundle -i src/find-all.ts -o ./dist/find-all.js -f cjs",
+    "build:1970": "microbundle -i src/find-1970.ts -o ./dist/find-1970.js -f cjs",
+    "build:now": "microbundle -i src/find-now.ts -o ./dist/find-now.js -f cjs",
     "cover": "nyc -r=lcov -r=text npm run test",
     "lint": "eslint scripts src tests --ext .js,.ts",
     "semantic-release": "semantic-release",
     "test": "mocha -r ts-node/register --max-old-space-size=8192 \"tests/**/*.ts\"",
-    "updateTzData": "ts-node scripts/update-data.ts"
+    "updateTzData": "node -r ts-node/register --max-old-space-size=8192 scripts/update-data.ts"
   },
   "devDependencies": {
     "@types/async": "^3.2.24",
