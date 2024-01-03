@@ -7,7 +7,7 @@ import yauzl from 'yauzl'
 
 import indexGeoJSON from './geo-index'
 
-const TARGET_INDEX_PERCENT = 0.75
+const TARGET_INDEX_PERCENT = 0.8
 const dataProducts = [
   'timezones.geojson',
   'timezones-1970.geojson',
@@ -20,7 +20,7 @@ function makeFileDownloadPath(product: string) {
 }
 
 function makeUnzipFilePath(product: string) {
-  return path.join(dataDir, `${product}.json`)
+  return path.join(downloadsDir, `${product}.json`)
 }
 
 function recreateDirectory(dir: string, callback) {
@@ -126,27 +126,22 @@ function unzipDownloadProduct(product, callback) {
   )
 }
 
-function geoIndexProduct(product, callback) {
-  indexGeoJSON(
-    require(makeUnzipFilePath(product)),
-    dataDir,
-    product,
-    TARGET_INDEX_PERCENT,
-    callback,
-  )
-}
-
 function processDataProduct(
   product,
   callback,
 ) {
   async.series(
     [
-      
       // unzip data
       (cb) => unzipDownloadProduct(product, cb),
       // geoIndex data
-      (cb) => geoIndexProduct(product, cb),
+      (cb) => indexGeoJSON(
+        require(makeUnzipFilePath(product)),
+        dataDir,
+        product,
+        TARGET_INDEX_PERCENT,
+        cb,
+      ),
     ],
     callback,
   )
