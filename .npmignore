@@ -81,6 +81,10 @@ $RECYCLE.BIN/
 
 # project exclusions
 .gitattributes
+.github
+.eslintrc.json
+.prettierrc.json
+.travis.yml
 downloads
 scripts
 tests
