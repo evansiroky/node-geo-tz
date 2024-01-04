@@ -68,7 +68,7 @@ The API available is the same for each data product.
 
 ### find(lat, lon)
 
-Returns the timezone identifiers found at `lat`, `lon`. There are certain coordinates where the timekeeping method will depend on the person you ask. Also, another case where 2 or more timezones could be returned is when a request is made with a coordinate that happens to be exactly on the border between two or more timezones.
+Returns the timezone identifiers found at `lat`, `lon`. There are certain coordinates where the timekeeping method will depend on the person you ask. Also, another case where 2 or more timezones could be returned is when a request is made with a coordinate that happens to be exactly on the border between two or more timezones. If the GPS coordinate does not fall inside any timezone boundary on land, then a timezone at sea will be returned.
 
 ```js
 const { find } = require('geo-tz')
@@ -102,6 +102,8 @@ This library relies on reading a large data file from disk to perform exact geog
 ### Accuracy of Output
 
 The underlying data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data from that project is mostly sourced from OpenStreetMap which is editable by anyone. In most cases, the timezone boundaries follow officially observed boundaries, but often times some communities near timezone boundaries may follow whichever timekeeping method works best for them.
+
+The boundaries in the ocean come from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project which only includes territorial waters and not exclusive economic zones. Additionally, special cases where the GPS coordinate falls with an area of [Terra nullius](https://en.wikipedia.org/wiki/Terra_nullius) will also have an ocean zone(s) returned.
 
 The resulting timezone identifiers will represent the timekeeping method as is cataloged to the best of the knowledge of the maintainers of the timezone database. This could be wrong in the past (especially prior to 1970) and could change in the future should an area change the way they keep track of time.
 
