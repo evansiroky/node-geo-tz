@@ -126,22 +126,20 @@ function unzipDownloadProduct(product, callback) {
   )
 }
 
-function processDataProduct(
-  product,
-  callback,
-) {
+function processDataProduct(product, callback) {
   async.series(
     [
       // unzip data
       (cb) => unzipDownloadProduct(product, cb),
       // geoIndex data
-      (cb) => indexGeoJSON(
-        require(makeUnzipFilePath(product)),
-        dataDir,
-        product,
-        TARGET_INDEX_PERCENT,
-        cb,
-      ),
+      (cb) =>
+        indexGeoJSON(
+          require(makeUnzipFilePath(product)),
+          dataDir,
+          product,
+          TARGET_INDEX_PERCENT,
+          cb,
+        ),
     ],
     callback,
   )
@@ -170,9 +168,13 @@ export default function (cfg: { baseDir?: string } | Function, callback?) {
           async.map(
             dataProducts,
             (dataProduct, mapCb) =>
-              downloadProduct(results.downloadReleaseMetadata, dataProduct, mapCb),
-            cb
-          )
+              downloadProduct(
+                results.downloadReleaseMetadata,
+                dataProduct,
+                mapCb,
+              ),
+            cb,
+          ),
       ],
       calculateLookupData: [
         'recreateDataDir',
@@ -180,11 +182,7 @@ export default function (cfg: { baseDir?: string } | Function, callback?) {
         (results, cb) =>
           async.map(
             dataProducts,
-            (dataProduct, mapCb) =>
-              processDataProduct(
-                dataProduct,
-                mapCb,
-              ),
+            (dataProduct, mapCb) => processDataProduct(dataProduct, mapCb),
             cb,
           ),
       ],
