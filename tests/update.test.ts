@@ -10,8 +10,7 @@ import { createDataDir, destroyDataDir } from './util'
 
 import update from '../src/update'
 
-const TEST_DATA_DIR = './data-test-update'
-const resolvedDataDir = path.join(__dirname, '..', TEST_DATA_DIR)
+const TEST_DIR = path.join(__dirname, '..', 'data-test-update')
 const LOCAL_FOLDER = path.join(__dirname, '..', 'tests', 'fixtures')
 
 describe('data update', function () {
@@ -19,11 +18,11 @@ describe('data update', function () {
   this.slow(2000)
 
   beforeEach(function (done) {
-    createDataDir(resolvedDataDir, done)
+    createDataDir(TEST_DIR, done)
   })
 
   afterEach(function (done) {
-    destroyDataDir(resolvedDataDir, done)
+    destroyDataDir(TEST_DIR, done)
   })
 
   it('tz geojson should get updated after fetching valid shapefile', function (done) {
@@ -33,7 +32,15 @@ describe('data update', function () {
       assets: [
         {
           browser_download_url:
-            'https://github.com/evansiroky/timezone-boundary-builder/releases/download/2016d/timezones.geojson.zip',
+            'https://github.com/evansiroky/timezone-boundary-builder/releases/download/2023d/timezones.geojson.zip',
+        },
+        {
+          browser_download_url:
+            'https://github.com/evansiroky/timezone-boundary-builder/releases/download/2023d/timezones-1970.geojson.zip',
+        },
+        {
+          browser_download_url:
+            'https://github.com/evansiroky/timezone-boundary-builder/releases/download/2023d/timezones-now.geojson.zip',
         },
       ],
     }
@@ -44,22 +51,36 @@ describe('data update', function () {
 
     const githubDlScope = nock('https://github.com')
       .get(
-        '/evansiroky/timezone-boundary-builder/releases/download/2016d/timezones.geojson.zip'
+        '/evansiroky/timezone-boundary-builder/releases/download/2023d/timezones.geojson.zip',
+      )
+      .replyWithFile(200, path.join(LOCAL_FOLDER, 'dist.zip'))
+
+    const githubDl1970Scope = nock('https://github.com')
+      .get(
+        '/evansiroky/timezone-boundary-builder/releases/download/2023d/timezones-1970.geojson.zip',
+      )
+      .replyWithFile(200, path.join(LOCAL_FOLDER, 'dist.zip'))
+
+    const githubDlNowScope = nock('https://github.com')
+      .get(
+        '/evansiroky/timezone-boundary-builder/releases/download/2023d/timezones-now.geojson.zip',
       )
       .replyWithFile(200, path.join(LOCAL_FOLDER, 'dist.zip'))
 
     const doneHelper = function (err?: Error) {
       githubApiScope.done()
       githubDlScope.done()
+      githubDl1970Scope.done()
+      githubDlNowScope.done()
       done(err)
     }
 
     // update timezone data by downloading it and extracting to geojson
     update(
       {
-        dataDir: TEST_DATA_DIR,
+        baseDir: TEST_DIR,
       },
-      function (err) {
+      (err) => {
         try {
           assert.isNotOk(err)
         } catch (e) {
@@ -67,21 +88,24 @@ describe('data update', function () {
         }
 
         // check for geojson file existence
-        fs.stat(resolvedDataDir + '/index.json', function (err, stats) {
-          try {
-            assert.isNotOk(err)
-            assert.isAbove(
-              stats.ctime.getTime(),
-              aWhileAgo,
-              'file update time is before test!'
-            )
-          } catch (e) {
-            return doneHelper(e)
-          }
+        fs.stat(
+          path.join(TEST_DIR, 'data', 'timezones.geojson.index.json'),
+          (err, stats) => {
+            try {
+              assert.isNotOk(err)
+              assert.isAbove(
+                stats.ctime.getTime(),
+                aWhileAgo,
+                'file update time is before test!',
+              )
+            } catch (e) {
+              return doneHelper(e)
+            }
 
-          doneHelper()
-        })
-      }
+            doneHelper()
+          },
+        )
+      },
     )
   })
 })

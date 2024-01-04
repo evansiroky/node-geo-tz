@@ -1,5 +1,4 @@
 import * as fs from 'fs'
-import * as path from 'path'
 
 import { decode } from 'geobuf'
 import inside from '@turf/boolean-point-in-polygon'
@@ -8,12 +7,7 @@ import Pbf from 'pbf'
 
 import { getTimezoneAtSea, oceanZones } from './oceanUtils'
 
-const tzData = require('../data/index.json')
-
-const FEATURE_FILE_PATH = path.join(__dirname, '..', 'data', 'geo.dat')
-let featureCache
-
-type CacheOptions = {
+export type CacheOptions = {
   /**
    * If set to true, all features will be loaded into memory to shorten future lookup
    * times.
@@ -22,15 +16,22 @@ type CacheOptions = {
   /**
    * Must be a map-like object with a `get` and `set` function.
    */
-  store?: any
+  store?: Map<string, any>
 }
 
 /**
- * Set caching behavior.
+ * Set caching behavior and return feature cache.
  *
+ * @param tzData The index data of the timezeone data product
+ * @param {string} featureFilePath The path to the binary geo.dat file for the timezeone data product
  * @param {CacheOptions} options cachine options.
  */
-function cacheLevel(options?: CacheOptions) {
+export function setCacheLevel(
+  tzData: any,
+  featureFilePath: string,
+  options?: CacheOptions,
+): Map<string, any> {
+  let featureCache
   if (
     options &&
     options.store &&
@@ -42,39 +43,46 @@ function cacheLevel(options?: CacheOptions) {
     featureCache = new Map()
   }
   if (options && options.preload) {
-    const featureFileFd = fs.openSync(FEATURE_FILE_PATH, 'r')
+    const featureFileFd = fs.openSync(featureFilePath, 'r')
 
     if (featureFileFd < 0) {
       throw new Error('Failed to open geo.dat file')
     }
 
-    _preCache(featureFileFd)
+    _preCache(tzData, featureFilePath, featureFileFd, featureCache)
 
     fs.closeSync(featureFileFd)
   }
+  return featureCache
 }
-
-cacheLevel()
 
 /**
  * A function that will load all features into an unexpiring cache
  *
+ * @param tzData
+ * @param {string} featureFilePath
  * @param {number} featureFileFd
+ * @param featureCache
  * @returns {void}
  */
-function _preCache(featureFileFd: number) {
+function _preCache(
+  tzData: any,
+  featureFilePath: string,
+  featureFileFd: number,
+  featureCache: Map<string, any>,
+) {
   // shoutout to github user @magwo for an initial version of this recursive function
   function preloadFeaturesRecursive(curTzData, quadPos: string) {
     if (curTzData.pos >= 0 && curTzData.len) {
       const geoJson = loadFeatures(
-        quadPos,
+        featureFilePath,
         curTzData.pos,
         curTzData.len,
-        featureFileFd
+        featureFileFd,
       )
       featureCache.set(quadPos, geoJson)
     } else if (typeof curTzData === 'object') {
-      Object.getOwnPropertyNames(curTzData).forEach(function (value) {
+      Object.getOwnPropertyNames(curTzData).forEach((value) => {
         preloadFeaturesRecursive(curTzData[value], quadPos + value)
       })
     }
@@ -86,7 +94,7 @@ function _preCache(featureFileFd: number) {
  * Load features from geo.dat at offset pos with length len.
  * Optionally accept a file descriptor
  *
- * @param quadPos
+ * @param featureFilePath
  * @param pos
  * @param len
  * @param fd
@@ -94,14 +102,14 @@ function _preCache(featureFileFd: number) {
  *  feature file data.
  */
 function loadFeatures(
-  quadPos: string,
+  featureFilePath: string,
   pos: number,
   len: number,
-  fd: number = -1
+  fd: number = -1,
 ) {
   let featureFileFd = fd
   if (featureFileFd < 0) {
-    featureFileFd = fs.openSync(FEATURE_FILE_PATH, 'r')
+    featureFileFd = fs.openSync(featureFilePath, 'r')
     if (featureFileFd < 0) {
       throw new Error('Failed to open geo.dat file')
     }
@@ -119,7 +127,7 @@ function loadFeatures(
 
   if (bytesRead < len) {
     throw new Error(
-      `tried to read ${len} bytes from geo.dat but only got ${bytesRead} bytes`
+      `tried to read ${len} bytes from geo.dat but only got ${bytesRead} bytes`,
     )
   }
 
@@ -130,11 +138,20 @@ function loadFeatures(
 /**
  * Find the timezone ID(s) at the given GPS coordinates.
  *
+ * @param tzData The indexed lookup dataset to use
+ * @param featureCache The appropriate featureCache to use
+ * @param featureFilePath The appropriate featureFilePath to use
  * @param lat latitude (must be >= -90 and <=90)
  * @param lon longitue (must be >= -180 and <=180)
  * @returns An array of string of TZIDs at the given coordinate.
  */
-export function find(lat: number, lon: number): string[] {
+export function findUsingDataset(
+  tzData: any,
+  featureCache: any,
+  featureFilePath: string,
+  lat: number,
+  lon: number,
+): string[] {
   const originalLon = lon
 
   let err
@@ -215,7 +232,7 @@ export function find(lat: number, lon: number): string[] {
       // get exact boundaries
       let geoJson = featureCache.get(quadPos)
       if (!geoJson) {
-        geoJson = loadFeatures(quadPos, curTzData.pos, curTzData.len)
+        geoJson = loadFeatures(featureFilePath, curTzData.pos, curTzData.len)
         featureCache.set(quadPos, geoJson)
       }
 
@@ -245,13 +262,4 @@ export function find(lat: number, lon: number): string[] {
     quadData.midLat = (quadData.top + quadData.bottom) / 2
     quadData.midLon = (quadData.left + quadData.right) / 2
   }
-}
-
-export { cacheLevel as setCache }
-
-/**
- * Load all features into memory to speed up future lookups.
- */
-export function preCache() {
-  cacheLevel({ preload: true })
 }

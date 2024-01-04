@@ -1,11 +1,13 @@
 sudo: false
+dist: jammy
 language: node_js
-
 node_js:
+  - "21"
+  - "20"
+  - "19"
+  - "18"
   - "17"
   - "16"
-  - "14"
-  - "12"
 
 env:
   - COVERAGE=false
@@ -13,7 +15,7 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: "16"
+    - node_js: "20"
       env: COVERAGE=true
       script:
         - "npm run cover"
@@ -23,17 +25,11 @@ matrix:
         - npm run build
         - npm run semantic-release
   allow_failures:
-    - node_js: "16"
+    - node_js: "20"
       env: COVERAGE=true
       script:
         - "npm run cover"
         - bash <(curl -s https://codecov.io/bash)
-    - node_js: "12"
-      env: COVERAGE=false
-      script:
-        - npm run lint
-        - npm t
-        - npm run build
 
 script:
   - npm run lint

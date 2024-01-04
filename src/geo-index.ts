@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import * as path from 'path'
 
 import { featureCollection, polygon } from '@turf/helpers'
 import geobuf from 'geobuf'
@@ -9,8 +10,14 @@ import Pbf from 'pbf'
 const geoJsonReader = new jsts.io.GeoJSONReader()
 const geoJsonWriter = new jsts.io.GeoJSONWriter()
 
-export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
-  console.log('indexing')
+export default function (
+  tzGeojson,
+  dataDir,
+  product,
+  targetIndexPercent,
+  callback,
+) {
+  console.log(`indexing data for ${product}`)
 
   const data = {
     timezones: [],
@@ -58,7 +65,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
   const writeDebugData = function (filename, geom) {
     fs.writeFileSync(
       'debug_' + debugWriteIdx + '_' + filename + '.json',
-      JSON.stringify(geoJsonWriter.write(geom))
+      JSON.stringify(geoJsonWriter.write(geom)),
     )
   }
 
@@ -143,7 +150,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
       const tzIdx = unindexableData.intersectedZones[j]
       const intersectedGeoJson = getIntersectingGeojson(
         tzIdx,
-        unindexableData.curBoundsGeometry
+        unindexableData.curBoundsGeometry,
       )
 
       if (intersectedGeoJson) {
@@ -211,7 +218,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
           'inspecting index area ',
           curZones.length - i,
           ' of ',
-          curZones.length
+          curZones.length,
         )
       }
 
@@ -227,8 +234,8 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
               [curBounds[2], curBounds[1]],
               [curBounds[0], curBounds[1]],
             ],
-          ]).geometry
-        )
+          ]).geometry,
+        ),
       )
 
       // calculate intersection with timezone boundaries
@@ -332,8 +339,8 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
 
   console.log('*********************************************')
   console.log('reached target index: ', curPctIndexed)
-  console.log('writing unindexable zone data')
-  const geoDatFd = fs.openSync(`${dataDir}/geo.dat`, 'w')
+  console.log(`writing unindexable zone data for ${product}`)
+  const geoDatFd = fs.openSync(path.join(dataDir, `${product}.geo.dat`), 'w')
 
   printMod = Math.round(curZones.length / 5)
 
@@ -344,7 +351,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
         'inspecting unindexable area ',
         curZones.length - i,
         ' of ',
-        curZones.length
+        curZones.length,
       )
     }
 
@@ -360,8 +367,8 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
             [curBounds[2], curBounds[1]],
             [curBounds[0], curBounds[1]],
           ],
-        ]).geometry
-      )
+        ]).geometry,
+      ),
     )
 
     // console.log('writing zone data `', curZone.id, '`', i ,'of', curZones.length)
@@ -386,7 +393,7 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
           curZone,
           intersectedZones,
         },
-        geoDatFd
+        geoDatFd,
       )
     }
 
@@ -399,7 +406,11 @@ export default function (tzGeojson, dataDir, targetIndexPercent, callback) {
 
   fs.closeSync(geoDatFd)
 
-  console.log('writing index file')
+  console.log(`writing index file for product ${product}`)
 
-  fs.writeFile(dataDir + '/index.json', JSON.stringify(data), callback)
+  fs.writeFile(
+    path.join(dataDir, `${product}.index.json`),
+    JSON.stringify(data),
+    callback,
+  )
 }

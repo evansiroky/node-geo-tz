@@ -2,7 +2,9 @@
 
 import { assert } from 'chai'
 
-import { find, preCache } from '../src/find'
+import { find, preCache } from '../src/find-all'
+import { find as find1970 } from '../src/find-1970'
+import { find as findNow } from '../src/find-now'
 import { oceanZones } from '../src/oceanUtils'
 
 const issueCoords = require('./fixtures/issues.json')
@@ -62,7 +64,7 @@ describe('find tests', function () {
     assertTzResultContainsTzs(
       90,
       0,
-      oceanZones.map((zone) => zone.tzid)
+      oceanZones.map((zone) => zone.tzid),
     )
   })
 
@@ -73,8 +75,26 @@ describe('find tests', function () {
         'should find ' + spotDescription + ' (' + spot.description + ')',
         function () {
           assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
-        }
+        },
       )
+    })
+  })
+
+  describe('data product cases', () => {
+    it('should find Asia/Aden at Aden International Airport with all timezones', () => {
+      assertTzResultContainsTzs(12.826174, 45.036933, 'Asia/Aden')
+    })
+
+    it('should find Asia/Riyadh at Aden International Airport with 1970 timezones', () => {
+      const result = find1970(12.826174, 45.036933)
+      assert.isArray(result)
+      assert.sameMembers(result, ['Asia/Riyadh'])
+    })
+
+    it('should find Europe/Moscow at Aden International Airport with now timezones', () => {
+      const result = findNow(12.826174, 45.036933)
+      assert.isArray(result)
+      assert.sameMembers(result, ['Europe/Moscow'])
     })
   })
 
@@ -93,7 +113,7 @@ describe('find tests', function () {
           europeTopLeft[0] +
             Math.random() * (europeBottomRight[0] - europeTopLeft[0]),
           europeTopLeft[1] +
-            Math.random() * (europeBottomRight[1] - europeTopLeft[1])
+            Math.random() * (europeBottomRight[1] - europeTopLeft[1]),
         )
       }
       console.timeEnd(timingStr)
@@ -103,7 +123,7 @@ describe('find tests', function () {
       'should find timezone of ' +
         count +
         ' random european positions with on-demand caching',
-      findRandomPositions
+      findRandomPositions,
     )
 
     it(
@@ -113,7 +133,7 @@ describe('find tests', function () {
       function () {
         preCache()
         findRandomPositions()
-      }
+      },
     )
   })
 })
