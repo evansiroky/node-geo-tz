@@ -1,6 +1,6 @@
 sudo: false
+dist: jammy
 language: node_js
-
 node_js:
   - "21"
   - "20"
