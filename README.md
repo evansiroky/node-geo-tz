@@ -1,5 +1,5 @@
 # node-geo-tz
-[![npm version](https://badge.fury.io/js/geo-tz.svg)](http://badge.fury.io/js/geo-tz) [![Build Status](https://travis-ci.org/evansiroky/node-geo-tz.svg?branch=master)](https://travis-ci.org/evansiroky/node-geo-tz) [![Dependency Status](https://david-dm.org/evansiroky/node-geo-tz.svg)](https://david-dm.org/evansiroky/node-geo-tz) [![Test Coverage](https://img.shields.io/codecov/c/github/evansiroky/node-geo-tz.svg)](https://codecov.io/github/evansiroky/node-geo-tz)
+[![npm version](https://badge.fury.io/js/geo-tz.svg)](http://badge.fury.io/js/geo-tz) [![Test Coverage](https://img.shields.io/codecov/c/github/evansiroky/node-geo-tz.svg)](https://codecov.io/github/evansiroky/node-geo-tz)
 
 The most up-to-date and accurate node.js geographical timezone lookup package.  It's fast too!
 
@@ -10,25 +10,72 @@ The most up-to-date and accurate node.js geographical timezone lookup package.  
 ## Usage
 
 ```js
-    const { find } = require('geo-tz')
+const { find } = require('geo-tz')
 
-    find(47.650499, -122.350070)  // ['America/Los_Angeles']
-    find(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
+find(47.650499, -122.350070)  // ['America/Los_Angeles']
+find(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
 ```
 
-## API Docs:
+## Data Source and Architecture
 
-As of Version 7, there is no longer a default import. The `find` function should be used instead.
+This library aims to do one thing and do it well: find the timezone(s) in use at a GPS coordinate. The output consists of timezone identifiers as defined in the [timezone database](https://www.iana.org/time-zones). The underlying geographic data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
-As of Version 5, the API now returns a list of possible timezones. There are certain coordinates where the timekeeping method will depend on the person you ask. Also, another case where 2 or more timezones could be returned is when a request is made with a coordinate that happens to be exactly on the border between two or more timezones.
+This library does an exact geographic lookup which has tradeoffs. The results are more accurate than other libraries that compromise by approximating the lookup of the data. However, it is perhaps a little bit slower that other libraries, has a larger installation size on disk and may encounter difficulties when bundling.
+
+## Entry Points
+
+As of version 8, node-geo-tz offers the ability to choose from the three different timezone boundary products that the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project produces.
+
+### Alike Since 1970 (default)
+
+The default data product used by this library are unioned timezones that are alike since 1970. This is a breaking change from versions below version 8 that used timezone identifiers that generally had a minimum of one timezone per country. In a number of places, the timezone identifier returned will be that which has the highest population among all timezone identifiers with similar timekeeping methods since 1970.
+
+```js
+const { find } = require('geo-tz')
+
+find(12.826174, 45.036933)  // ['Asia/Riyadh']
+```
+
+When using this product, it is possible that the timezone identifier returned will not be appropriate for calculating the observed time at the GPS coordinate prior to the year 1970.
+
+### Comprehensive
+
+A comprehensive dataset is available to query for all timezone identifiers available. This has the same behavior of this library prior to version 8. This version has the largest file size to accomodate all the needed boundaries. In this dataset, with a few rare exceptions, there is at least one unique timezone identifier per country.
+
+```js
+const { find } = require('geo-tz/all')
+
+find(12.826174, 45.036933)  // ['Asia/Aden']
+```
+
+When using this product, the timezone identifier returned will be appropriate for calculating the observed time at the GPS coordinate including years prior to 1970.
+
+### Same since now
+
+A dataset containing a unioned set of timezones that share the same timekeeping method into the future is the final data product available. This version has the smallest file size as it does not include as many timezones and boundaries. In a number of places, the timezone identifier returned will be that which has the highest population among all timezone identifiers with similar timekeeping methods since the current time.
+
+```js
+const { find } = require('geo-tz/now')
+
+find(12.826174, 45.036933)  // ['Europe/Moscow']
+```
+
+When using this product, the timezone identifier returned will only be appropriate for calculating the observed time at the GPS coordinate for the current and future time.
+
+## API Docs
+
+The API available is the same for each data product.
 
 ### find(lat, lon)
 
-Returns the timezone names found at `lat`, `lon`.  The timezone names will be the timezone identifiers as defined in the [timezone database](https://www.iana.org/time-zones).  The underlying geographic data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project.
+Returns the timezone identifiers found at `lat`, `lon`. There are certain coordinates where the timekeeping method will depend on the person you ask. Also, another case where 2 or more timezones could be returned is when a request is made with a coordinate that happens to be exactly on the border between two or more timezones.
 
-This library does an exact geographic lookup which has tradeoffs.  It is perhaps a little bit slower that other libraries, has a larger installation size on disk and cannot be used in the browser.  However, the results are more accurate than other libraries that compromise by approximating the lookup of the data.
+```js
+const { find } = require('geo-tz')
 
-The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
+find(47.650499, -122.350070)  // ['America/Los_Angeles']
+find(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
+```
 
 ### setCache(options)
 
@@ -48,8 +95,18 @@ setCache({ store: map }) // pass a Map-like storage object
 
 ## Limitations
 
-This library is not intended to be used in the browser due to the large amount of files that are included to perform exact geographic lookups.
+### Performance
+
+This library relies on reading a large data file from disk to perform exact geographic lookups. Therefore, it is not intended to be used in the browser and may have issues with bundlers if they don't include the necessary file.
+
+### Accuracy of Output
+
+The underlying data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data from that project is mostly sourced from OpenStreetMap which is editable by anyone. In most cases, the timezone boundaries follow officially observed boundaries, but often times some communities near timezone boundaries may follow whichever timekeeping method works best for them.
+
+The resulting timezone identifiers will represent the timekeeping method as is cataloged to the best of the knowledge of the maintainers of the timezone database. This could be wrong in the past (especially prior to 1970) and could change in the future should an area change the way they keep track of time.
+
+Any concerns about the correctness of results are encouraged to be submitted as issues using the [Incorrect Result Issue Template](https://github.com/evansiroky/node-geo-tz/issues/new?assignees=&labels=&projects=&template=incorrect-result.md&title=Incorrect%20Result%3A+). 
 
 ## An Important Note About Maintenance
 
-Due to the ever-changing nature of timezone data, it is critical that you always use the latest version of this package.  If you use old versions, there will be a few edge cases where the calculated time is wrong.  If you use greenkeeper, please be sure to specify an exact target version so you will always get PR's for even patch-level releases.
+Due to the ever-changing nature of timezone data, it is critical that the latest version of this package is used.  If older versions are used, there will be a few edge cases where the calculated time is wrong.
