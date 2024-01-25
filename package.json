@@ -40,6 +40,24 @@
       "import": "./dist/find-now.js",
       "require": "./dist/find-now.js",
       "types": "./dist/find-now.d.ts"
+    },
+    "./dist/find-1970": {
+      "main": "./dist/find-1970.js",
+      "import": "./dist/find-1970.js",
+      "require": "./dist/find-1970.js",
+      "types": "./dist/find-1970.d.ts"
+    },
+    "./dist/find-all": {
+      "main": "./dist/find-all.js",
+      "import": "./dist/find-all.js",
+      "require": "./dist/find-all.js",
+      "types": "./dist/find-all.d.ts"
+    },
+    "./dist/find-now": {
+      "main": "./dist/find-now.js",
+      "import": "./dist/find-now.js",
+      "require": "./dist/find-now.js",
+      "types": "./dist/find-now.d.ts"
     }
   },
   "scripts": {

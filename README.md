@@ -24,7 +24,7 @@ This library does an exact geographic lookup which has tradeoffs. The results ar
 
 ## Entry Points
 
-As of version 8, node-geo-tz offers the ability to choose from the three different timezone boundary products that the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project produces.
+As of version 8, node-geo-tz offers the ability to choose from the three different timezone boundary products that the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project produces. If using TypeScript, it may be necessary to use the `dist` entry points (see [issue #165](https://github.com/evansiroky/node-geo-tz/issues/165)).
 
 ### Alike Since 1970 (default)
 
@@ -32,6 +32,7 @@ The default data product used by this library are unioned timezones that are ali
 
 ```js
 const { find } = require('geo-tz')
+// const { find } = require('geo-tz/dist/find-1970') // TypeScript-compatible import
 
 find(12.826174, 45.036933)  // ['Asia/Riyadh']
 ```
@@ -44,6 +45,7 @@ A comprehensive dataset is available to query for all timezone identifiers avail
 
 ```js
 const { find } = require('geo-tz/all')
+// const { find } = require('geo-tz/dist/find-all') // TypeScript-compatible import
 
 find(12.826174, 45.036933)  // ['Asia/Aden']
 ```
@@ -56,6 +58,7 @@ A dataset containing a unioned set of timezones that share the same timekeeping 
 
 ```js
 const { find } = require('geo-tz/now')
+// const { find } = require('geo-tz/dist/find-now') // TypeScript-compatible import
 
 find(12.826174, 45.036933)  // ['Europe/Moscow']
 ```
