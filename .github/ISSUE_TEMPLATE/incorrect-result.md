@@ -14,6 +14,8 @@ assignees: ''
 
 **Actual Result:** *['Indian/Kerguelen']*
 
+**Dataset:** *Should be one of: "Comprehensive", "Alike since 1970" or "Same since now".*
+
 ## Discussion
 
 *A discussion of why this result is believe to be incorrect. Please include as much details as possible.*
