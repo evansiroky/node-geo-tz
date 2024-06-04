@@ -3,13 +3,10 @@ import * as path from 'path'
 import type { CacheOptions } from './find'
 import { findUsingDataset, setCacheLevel } from './find'
 
+const DATA_PATH =
+  process.env.GEO_TZ_DATA_PATH || path.join(__dirname, '..', 'data')
 const TZ_DATA = require('../data/timezones-now.geojson.index.json')
-const FEATURE_FILE_PATH = path.join(
-  __dirname,
-  '..',
-  'data',
-  'timezones-now.geojson.geo.dat',
-)
+const FEATURE_FILE_PATH = path.join(DATA_PATH, 'timezones-now.geojson.geo.dat')
 let featureCache
 
 /**

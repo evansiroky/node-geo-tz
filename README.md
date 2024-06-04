@@ -100,13 +100,17 @@ setCache({ store: map }) // pass a Map-like storage object
 
 ### Performance
 
-This library relies on reading a large data file from disk to perform exact geographic lookups. Therefore, it is not intended to be used in the browser and may have issues with bundlers if they don't include the necessary file.
+This library relies on reading a large data file from disk to perform exact geographic lookups. Therefore, it is not intended to be used in the browser and may have issues with bundlers (see below).
+
+### Bundlers
+
+Because this library reads the [`data/`](/data/) directory from disk at runtime, it would typically not be included by standard bundling tools and needs to be copied somewhere explicitly after bundling your JavaScript code. Once you have a location for the `data/` directory after bundling, the `GEO_TZ_DATA_PATH` environment variable can be set for this library to read from that directory.
 
 ### Accuracy of Output
 
-The underlying data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data from that project is mostly sourced from OpenStreetMap which is editable by anyone. In most cases, the timezone boundaries follow officially observed boundaries, but often times some communities near timezone boundaries may follow whichever timekeeping method works best for them.
+The underlying data is obtained from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data from that project is mostly sourced from OpenStreetMap which is editable by anyone. In most cases, the timezone boundaries follow officially observed boundaries, but often times some communities near timezone boundaries may follow whichever timekeeping method works best for them.
 
-The boundaries in the ocean come from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project which only includes territorial waters and not exclusive economic zones. Additionally, special cases where the GPS coordinate falls with an area of [Terra nullius](https://en.wikipedia.org/wiki/Terra_nullius) will also have an ocean zone(s) returned.
+The boundaries in the ocean come from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project which only includes territorial waters and not exclusive economic zones. Additionally, special cases where the GPS coordinate falls with an area of [Terra nullius](https://en.wikipedia.org/wiki/Terra_nullius) will also have an ocean zone(s) returned.
 
 The resulting timezone identifiers will represent the timekeeping method as is cataloged to the best of the knowledge of the maintainers of the timezone database. This could be wrong in the past (especially prior to 1970) and could change in the future should an area change the way they keep track of time.
 
