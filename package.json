@@ -90,7 +90,7 @@
     "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-promise": "^6.6.0",
     "follow-redirects": "^1.15.9",
     "jsts": "2.6.1",
     "lodash": "^4.17.21",
