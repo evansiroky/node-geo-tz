@@ -106,8 +106,8 @@
     "yauzl": "^2.10.0"
   },
   "dependencies": {
-    "@turf/boolean-point-in-polygon": "^6.5.0",
-    "@turf/helpers": "^6.5.0",
+    "@turf/boolean-point-in-polygon": "^6.5.0 || ^7.0.0",
+    "@turf/helpers": "^6.5.0 || ^7.0.0",
     "geobuf": "^3.0.2",
     "pbf": "^3.2.1"
   }
