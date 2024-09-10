@@ -269,5 +269,20 @@
     "lat": 70.922533, 
     "lon": -8.714836,
     "description": "#158 - 2023b - test for Europe/Oslo"
+  }, {
+    "zid": "Asia/Ulaanbaatar",
+    "lat": 46.38025,    
+    "lon": 96.22243,
+    "description": "#174 - 2024b - test for Asia/Ulaanbaatar"
+  }, {
+    "zid": "Asia/Ulaanbaatar",
+    "lat": 49.87329,    
+    "lon": 115.73496,
+    "description": "#174 - 2024b - test for Asia/Ulaanbaatar"
+  }, {
+    "zid": "Asia/Hovd",
+    "lat": 47.96326,    
+    "lon": 91.62525,
+    "description": "#174 - 2024b - test for Asia/Hovd"
   }
 ]
