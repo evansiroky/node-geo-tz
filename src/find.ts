@@ -7,6 +7,11 @@ import Pbf from 'pbf'
 
 import { getTimezoneAtSea, oceanZones } from './oceanUtils'
 
+type MapLike = {
+  get(key: string): any
+  set(key: string, value: any): void
+}
+
 export type CacheOptions = {
   /**
    * If set to true, all features will be loaded into memory to shorten future lookup
@@ -16,7 +21,7 @@ export type CacheOptions = {
   /**
    * Must be a map-like object with a `get` and `set` function.
    */
-  store?: Map<string, any>
+  store?: MapLike
 }
 
 /**
@@ -69,7 +74,7 @@ function _preCache(
   tzData: any,
   featureFilePath: string,
   featureFileFd: number,
-  featureCache: Map<string, any>,
+  featureCache: MapLike,
 ) {
   // shoutout to github user @magwo for an initial version of this recursive function
   function preloadFeaturesRecursive(curTzData, quadPos: string) {
@@ -147,7 +152,7 @@ function loadFeatures(
  */
 export function findUsingDataset(
   tzData: any,
-  featureCache: any,
+  featureCache: MapLike,
   featureFilePath: string,
   lat: number,
   lon: number,
