@@ -2,6 +2,7 @@ sudo: false
 dist: jammy
 language: node_js
 node_js:
+  - "23"
   - "22"
   - "21"
   - "20"
