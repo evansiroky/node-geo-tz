@@ -112,7 +112,7 @@ The underlying data is obtained from the [timezone-boundary-builder](https://git
 
 The boundaries in the ocean come from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project which only includes territorial waters and not exclusive economic zones. Additionally, special cases where the GPS coordinate falls with an area of [Terra nullius](https://en.wikipedia.org/wiki/Terra_nullius) will also have an ocean zone(s) returned.
 
-The resulting timezone identifiers will represent the timekeeping method as is cataloged to the best of the knowledge of the maintainers of the timezone database. This could be wrong in the past (especially prior to 1970) and could change in the future should an area change the way they keep track of time.
+The resulting timezone identifiers will represent the timekeeping method as is cataloged to the best of the knowledge of the maintainers of the [timezone database](https://www.iana.org/time-zones). This could be wrong in the past (especially prior to 1970) and could change in the future should an area change the way they keep track of time.
 
 Any concerns about the correctness of results are encouraged to be submitted as issues using the [Incorrect Result Issue Template](https://github.com/evansiroky/node-geo-tz/issues/new?assignees=&labels=&projects=&template=incorrect-result.md&title=Incorrect%20Result%3A+). 
 
