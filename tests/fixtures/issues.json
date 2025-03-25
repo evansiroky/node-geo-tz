@@ -56,11 +56,6 @@
     "description": "#54: 2017a update - Phenix City, AL"
   }, {
     "zid": "America/Chicago",
-    "lat": 44.370520,
-    "lon": -100.388835,
-    "description": "#54: 2017a update - Fort Pierre, SD"
-  }, {
-    "zid": "America/Chicago",
     "lat": 29.932750,
     "lon": -85.398084,
     "description": "#72: 2017c update - Issue w/ Mexico Beach, FL"
@@ -284,5 +279,15 @@
     "lat": 47.96326,    
     "lon": 91.62525,
     "description": "#174 - 2024b - test for Asia/Hovd"
+  }, {
+    "zid": "America/Coyhaique",
+    "lat": -45.571177,    
+    "lon": -72.068456,
+    "description": "#187 - 2025b - test for America/Coyhaique"
+  }, {
+    "zid": "America/Denver",
+    "lat": 44.370520,
+    "lon": -100.388835,
+    "description": "Fort Pierre, SD updates on OSM reflected official boundaries"
   }
 ]
