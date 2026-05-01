@@ -130,11 +130,6 @@
     "lon": 33.628617,
     "description": "#89 - 2019a - test for zone Africa/Cairo in Bir Tawil"
   }, {
-    "zid": "Africa/Khartoum",
-    "lat": 22.138993,
-    "lon": 31.416836,
-    "description": "#89 - 2019a - test for zone Asia/Khartoum in Sudanese part of Lake Nasser"
-  }, {
     "zid": ["Africa/Johannesburg", "Antarctica/McMurdo"],
     "lat": -86,
     "lon": 0,

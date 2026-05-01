@@ -96,6 +96,12 @@ describe('find tests', function () {
       assert.isArray(result)
       assert.sameMembers(result, ['Europe/Moscow'])
     })
+
+    it('should find America/Vancouver at Tsawwassen Ferry Terminal with now timezones (2026b)', () => {
+      const result = findNow(49.00565, -123.134064)
+      assert.isArray(result)
+      assert.sameMembers(result, ['America/Vancouver'])
+    })
   })
 
   describe('performance aspects', function () {
