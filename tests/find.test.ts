@@ -104,6 +104,12 @@ describe('find tests', function () {
     it('should find Europe/Moscow at Aden International Airport with now timezones', () => {
       assertTzResultContainsTzs(12.826174, 45.036933, 'Europe/Moscow', 'now')
     })
+
+    it('should find America/Vancouver at Tsawwassen Ferry Terminal with now timezones (2026b)', () => {
+      const result = findNow(49.00565, -123.134064)
+      assert.isArray(result)
+      assert.sameMembers(result, ['America/Vancouver'])
+    })
   })
 
   describe('performance aspects', function () {
