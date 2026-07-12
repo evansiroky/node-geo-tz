@@ -285,10 +285,10 @@
     "lon": -100.388835,
     "description": "Fort Pierre, SD updates on OSM reflected official boundaries"
   }, {
-    "zid": "America/Vancouver",
+    "zid": "America/Phoenix",
     "lat": 49.00565,
     "lon": -123.134064,
-    "description": "America/Vancouver at Tsawwassen Ferry Terminal with now timezones (2026b)",
+    "description": "America/Phoenix at Tsawwassen Ferry Terminal with now timezones (2026c)",
     "product": "now"
   }
 ]
