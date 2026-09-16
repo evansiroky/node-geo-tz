@@ -18,7 +18,7 @@ find(43.839319, 87.526148)  // ['Asia/Shanghai', 'Asia/Urumqi']
 
 ## Data Source and Architecture
 
-This library aims to do one thing and do it well: find the timezone(s) in use at a GPS coordinate. The output consists of timezone identifiers as defined in the [timezone database](https://www.iana.org/time-zones). The underlying geographic data is obtained from the [timezone-boudary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
+This library aims to do one thing and do it well: find the timezone(s) in use at a GPS coordinate. The output consists of timezone identifiers as defined in the [timezone database](https://www.iana.org/time-zones). The underlying geographic data is obtained from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data is indexed for fast analysis by caching subregions of geographic data when a precise lookup is needed.
 
 This library does an exact geographic lookup which has tradeoffs. The results are more accurate than other libraries that compromise by approximating the lookup of the data. However, it is perhaps a little bit slower that other libraries, has a larger installation size on disk and may encounter difficulties when bundling.
 
