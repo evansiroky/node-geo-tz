@@ -285,10 +285,16 @@
     "lon": -100.388835,
     "description": "Fort Pierre, SD updates on OSM reflected official boundaries"
   }, {
-    "zid": "America/Phoenix",
+    "zid": "America/Vancouver",
     "lat": 49.00565,
     "lon": -123.134064,
-    "description": "America/Phoenix at Tsawwassen Ferry Terminal with now timezones (2026c)",
+    "description": "America/Vancouver at Tsawwassen Ferry Terminal with now timezones (2026d) due to `temporary hack`",
+    "product": "now"
+  }, {
+    "zid": "America/Edmonton",
+    "lat": 67.42762,
+    "lon": -134.86897,
+    "description": "America/Edmonton at Fort McPherson with now timezones (2026d)",
     "product": "now"
   }
 ]
