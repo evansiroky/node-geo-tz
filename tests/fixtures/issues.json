@@ -296,5 +296,11 @@
     "lon": -134.86897,
     "description": "America/Edmonton at Fort McPherson with now timezones (2026d)",
     "product": "now"
+  }, {
+    "zid": "America/Winnipeg",
+    "lat": 49.97155, 
+    "lon": -98.33094,
+    "description": "America/Winnipeg at World's Largest Coca Cola Can with now timezones (2026e)",
+    "product": "now"
   }
 ]
