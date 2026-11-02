@@ -285,22 +285,34 @@
     "lon": -100.388835,
     "description": "Fort Pierre, SD updates on OSM reflected official boundaries"
   }, {
-    "zid": "America/Vancouver",
+    "zid": "America/Phoenix",
     "lat": 49.00565,
     "lon": -123.134064,
-    "description": "America/Vancouver at Tsawwassen Ferry Terminal with now timezones (2026d) due to `temporary hack`",
+    "description": "America/Phoenix at Tsawwassen Ferry Terminal with now timezones (2026f)",
     "product": "now"
   }, {
-    "zid": "America/Edmonton",
+    "zid": "America/Mexico_City",
     "lat": 67.42762,
     "lon": -134.86897,
-    "description": "America/Edmonton at Fort McPherson with now timezones (2026d)",
+    "description": "America/Mexico_City at Fort McPherson with now timezones (2026f)",
     "product": "now"
   }, {
-    "zid": "America/Winnipeg",
+    "zid": "America/Lima",
     "lat": 49.97155, 
     "lon": -98.33094,
-    "description": "America/Winnipeg at World's Largest Coca Cola Can with now timezones (2026e)",
+    "description": "America/Lima at World's Largest Coca Cola Can with now timezones (2026f)",
+    "product": "now"
+  }, {
+    "zid": "America/New_York",
+    "lat": 72.69676, 
+    "lon": -77.96154,
+    "description": "America/New_York at Tim Hortons, Pond Inlet with now timezones (2026f)",
+    "product": "now"
+  }, {
+    "zid": "America/Chicago",
+    "lat": 64.36312, 
+    "lon": -95.88047,
+    "description": "America/Chicago at Geographic Center of Canada with now timezones (2026f)",
     "product": "now"
   }
 ]
